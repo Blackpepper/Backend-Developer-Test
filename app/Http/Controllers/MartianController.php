@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\MartianCollection;
+use App\Http\Resources\MartianResource;
 use App\Models\Martian;
 use Illuminate\Http\Request;
 
@@ -14,7 +16,7 @@ class MartianController extends Controller
      */
     public function index()
     {
-        //
+        return new MartianCollection(Martian::all());
     }
 
     /**
@@ -25,7 +27,13 @@ class MartianController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $martian = Martian::create($request->only([
+            'name',
+            'age',
+            'gender'
+        ]));
+
+        return new MartianResource($martian);
     }
 
     /**
