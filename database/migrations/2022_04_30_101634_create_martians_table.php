@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('martians', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->integer('age');
+            $table->string('gender', 1);
             $table->timestamps();
         });
     }
