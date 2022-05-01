@@ -18,7 +18,7 @@ class MartianResource extends JsonResource
             'id'    => $this->id,
             'name'  => $this->name,
             'age'   => $this->age,
-            'gener' => $this->gender
+            'gender' => $this->gender
         ];
     }
 }
