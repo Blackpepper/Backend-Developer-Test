@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('trade_item_id');
             $table->integer('qty');
             $table->timestamps();
+            $table->unique((['martian_id', 'trade_item_id']));
         });
     }
 
