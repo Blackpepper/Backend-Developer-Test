@@ -8,6 +8,7 @@ use App\Models\Martian;
 use App\Models\TradeItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class MartianController extends Controller
 {
@@ -29,38 +30,47 @@ class MartianController extends Controller
      */
     public function store(Request $request)
     {
-        // validate incoming data
-        $request->validate([
-            'name' => 'required|unique:martians',
-            'age' => 'required',
-            'gender' => 'required',
-            'inventory' => 'required',
-            'inventory.*.name' => 'required|exists:trade_items,name',
-            'inventory.*.qty' => 'required'
-        ]);
+        try {
+            // validate incoming data
+            $request->validate([
+                'name' => 'required|unique:martians',
+                'age' => 'required|integer',
+                'gender' => [
+                    'required',
+                    Rule::in(['f', 'm']),
+                ],
+                'inventory' => 'required',
+                'inventory.*.name' => 'required|exists:trade_items,name',
+                'inventory.*.qty' => 'required|integer'
+            ]);
 
-        // create new object with accepted params
-        $martian = Martian::create($request->only([
-            'name',
-            'age',
-            'gender'
-        ]));
+            // create new object with accepted params
+            $martian = Martian::create($request->only([
+                'name',
+                'age',
+                'gender'
+            ]));
 
-        // add qty to pivot table
-        foreach ($request->get('inventory') as $i) {
-            $tradeItem = TradeItem::where('name', $i['name'])->first();
+            // add inventory to martian
+            foreach ($request->get('inventory') as $i) {
+                $tradeItem = TradeItem::where('name', $i['name'])->first();
 
-            // check if inventory exist
-            $existInventory = DB::table('martian_inventory')->where([
-                'martian_id' => $martian->id,
-                'trade_item_id' => $tradeItem->id
-            ])->first();
+                // check if inventory exist
+                $existInventory = DB::table('martian_inventory')->where([
+                    'martian_id' => $martian->id,
+                    'trade_item_id' => $tradeItem->id
+                ])->first();
 
-            if (!$existInventory) {
-                $martian->inventories()->attach($tradeItem->id, [
-                    'qty' => $i['qty']
-                ]);
+                if (!$existInventory) {
+                    $martian->inventories()->attach($tradeItem->id, [
+                        'qty' => $i['qty']
+                    ]);
+                }
             }
+        } catch (\Exception $ex) {
+            return response()->json([
+                'message' => $ex->getMessage()
+            ], 500);
         }
 
         return new MartianResource($martian);
@@ -86,7 +96,30 @@ class MartianController extends Controller
      */
     public function update(Request $request, Martian $martian)
     {
-        //
+        try {
+            $request->validate([
+                'name' => 'required|unique:martians',
+                'age' => 'required|integer',
+                'gender' => [
+                    'required',
+                    Rule::in(['f', 'm']),
+                ],
+                'allow_trade' => 'boolean'
+            ]);
+            $martian->update($request->only([
+                'name',
+                'age',
+                'gender',
+                'allow_trade'
+            ]));
+
+        } catch (\Exception $ex) {
+            return response()->json([
+                'message' => $ex->getMessage()
+            ], 500);
+        }
+
+        return new MartianResource($martian);
     }
 
     /**
