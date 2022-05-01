@@ -83,11 +83,27 @@
                     <tr>
                         <th>Trade</th>
                         <td v-for="martian in martians">
-                            %% martian.trade === 1 ? 'Available' : '' %%
-                            <button type="button" class="btn btn-primary" style="float: right;" :data-id="martian.id"
-                                    data-bs-toggle="modal" data-bs-target="#tradeModal" @click="setMartianToTrade"
-                                    v-if="martian.trade == 1">Trade
-                            </button>
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="1"
+                                               :id="'trade_' + martian.id"
+                                               :checked="martian.trade == 1"
+                                               :data-id="martian.id" @change="toggleTrade">
+                                        <label class="form-check-label" :for="'trade_' + martian.id">
+                                            Available
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <button type="button" class="btn btn-primary" style="float: right;"
+                                            :data-id="martian.id"
+                                            data-bs-toggle="modal" data-bs-target="#tradeModal"
+                                            @click="setMartianToTrade"
+                                            v-if="martian.trade == 1">Trade
+                                    </button>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -454,6 +470,29 @@
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         _this.tradeErrorMsg = jqXHR.responseJSON.message;
+                    }
+                })
+            },
+            toggleTrade: function (e) {
+                var _this = this;
+                var ele = e.currentTarget;
+                var martianID = $(ele).data("id");
+                var trade = $(ele).prop("checked") ? 1 : 0;
+
+                $.ajax({
+                    url: '/api/martians/' + martianID,
+                    method: 'PUT',
+                    data: {trade: trade},
+                    success: function (data, textStatus, jqXHR) {
+                        alert(data.message);
+                        if (data.success) {
+                            _this.getMartians();
+                        } else {
+
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert(jqXHR.responseJSON.message);
                     }
                 })
             }
