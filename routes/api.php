@@ -19,3 +19,4 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::apiResource('martians', \App\Http\Controllers\API\Martian\MartianController::class)->except(['create', 'edit']);
+Route::apiResource('supplies', \App\Http\Controllers\API\Supply\SupplyController::class)->except(['create', 'edit']);
