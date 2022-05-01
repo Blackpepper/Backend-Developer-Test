@@ -18,5 +18,8 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
+Route::name('martians.')->prefix('martians/{martian}')->group(function () {
+    Route::post('trade', [\App\Http\Controllers\API\Martian\MartianController::class, 'trade'])->name('trade');
+});
 Route::apiResource('martians', \App\Http\Controllers\API\Martian\MartianController::class)->except(['create', 'edit']);
 Route::apiResource('supplies', \App\Http\Controllers\API\Supply\SupplyController::class)->except(['create', 'edit']);

@@ -124,4 +124,56 @@ class MartianController extends BaseController
             return $this->sendError($ex->getMessage());
         }
     }
+
+    /**
+     * Trade specified supplies between the specified martians
+     *
+     * @param TradeRequest $request
+     * @param Martian $martian
+     * @return void
+     */
+    public function trade(TradeRequest $request, Martian $martian)
+    {
+        try {
+            $validated = $request->validated();
+            $trader = Martian::find($validated['trader_id']);
+            // check if the martian or trader can trade
+            if (!$martian->trade) {
+                throw new \Exception(__('errors.tradeNotAllowed', ['name' => $martian->name]));
+            }
+            if (!$trader->trade) {
+                throw new \Exception(__('errors.tradeNotAllowed', ['name' => $trader->name]));
+            }
+
+            $supplies = $validated['supplies'];
+            $suppliesOfTrader = $validated['supplies_of_trader'];
+
+            // check points of supplies
+            $checkPoints = CompareSuppliesService::compare($supplies, $suppliesOfTrader);
+            if (!$checkPoints) {
+                throw new \Exception(__('errors.pointsNotMatched'));
+            }
+
+            // trade
+            $martianSuppliesData = [
+                'martian_id' => $martian->id,
+                'supplies' => $supplies
+            ];
+            $traderSuppliesData = [
+                'martian_id' => $validated['trader_id'],
+                'supplies' => $suppliesOfTrader
+            ];
+
+            $trade = TradeService::trade($martianSuppliesData, $traderSuppliesData);
+            if ($trade) {
+                $data = new MartianResource($martian);
+                return $this->sendSuccess($data, __('martians.martians.trade.success'));
+            } else {
+                return $this->sendError(__('martians.martians.trade.failed'));
+            }
+        } catch (\Exception $ex) {
+            Log::error($ex->getMessage());
+            return $this->sendError($ex->getMessage());
+        }
+    }
 }
