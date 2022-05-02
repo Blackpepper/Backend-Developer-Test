@@ -9,7 +9,9 @@ class Martian extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'age', 'gender'];
+    protected $fillable = ['name', 'age', 'gender', 'allow_trade'];
+
+    protected $with = ['inventories'];
 
     public function inventories()
     {
