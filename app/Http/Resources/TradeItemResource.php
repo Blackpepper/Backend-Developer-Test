@@ -17,7 +17,10 @@ class TradeItemResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'points' => $this->points
+            'points' => $this->points,
+            'qty' => $this->whenPivotLoaded('martian_inventory', function() {
+                return $this->pivot->qty;
+            })
         ];
     }
 }

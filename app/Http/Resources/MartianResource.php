@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\TradeItem;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,20 +17,13 @@ class MartianResource extends JsonResource
     public function toArray($request)
     {
 
-        $inventoryData = [];
-        foreach ($this->inventories as $i) {
-            $inventoryData[] = [
-                'name' => $i->name,
-                'qty' => $i->pivot->qty
-            ];
-        }
-
         return [
             'id' => $this->id,
             'name' => $this->name,
             'age' => $this->age,
             'gender' => $this->gender,
-            'inventory' => $inventoryData
+            'allow_trade' => ($this->allow_trade ? true : false),
+            'inventory' => $this->relationLoaded('inventories') ? TradeItemResource::collection($this->inventories) : null
         ];
 
     }
