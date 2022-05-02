@@ -4,10 +4,6 @@ Thank you for the opportunity for this test.
 
 I was so excited while I did the test.
 
-Frankly speaking, I am not familiar with Docker, so could not make an image for this application.
-
-I just pushed my output to git.
-
 Looking forward to hearing good news from you.
 
 Kind regards
@@ -16,13 +12,15 @@ Kenneth Park
 
 # How to run
 
-1. Clone this git
-2. Run 'composer install', then 'php artisan migrate'
-3. You can play at http://localhost:8000/
+1. Clone the repo
+2. Run 'composer install'
+3. Run './vendor/bin/sail up -d' once composer install completed
+4. Run './vendor/bin/sail artisan migrate' after the container is running
+5. You can play at http://localhost/
 
 # API Document
 
-http://localhost:8000/request-docs
+http://localhost/request-docs
 
 | METHOD | Endpoint                      | Description                                                                             |
 |--------|-------------------------------|-----------------------------------------------------------------------------------------|
