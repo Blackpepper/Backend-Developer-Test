@@ -87,21 +87,21 @@ class MartianController extends Controller
         //
     }
 
+
     /**
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Martian $martian
-     * @return \Illuminate\Http\Response
+     * @return MartianResource
      */
     public function update(Request $request, Martian $martian)
     {
         try {
             $request->validate([
-                'name' => 'required|unique:martians',
-                'age' => 'required|integer',
+                'name' => 'unique:martians',
+                'age' => 'integer',
                 'gender' => [
-                    'required',
                     Rule::in(['f', 'm']),
                 ],
                 'allow_trade' => 'boolean'
