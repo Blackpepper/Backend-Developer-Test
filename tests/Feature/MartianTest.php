@@ -3,9 +3,11 @@
 namespace Tests\Feature;
 
 use App\Models\Martian;
+use App\Models\TradeItem;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class MartianTest extends TestCase
@@ -37,7 +39,8 @@ class MartianTest extends TestCase
                     'name',
                     'age',
                     'gender',
-                    'inventory'
+                    'inventory',
+                    'allow_trade',
                 ]
             ]);
     }
@@ -61,12 +64,41 @@ class MartianTest extends TestCase
 
         $martian = Martian::create($martianData);
 
-        $payload = $martianData = [
+        // add inventory to martian
+        foreach ($martianData['inventory'] as $i) {
+            $tradeItem = TradeItem::where('name', $i['name'])->first();
+
+            // check if inventory exist
+            $existInventory = DB::table('martian_inventory')->where([
+                'martian_id' => $martian->id,
+                'trade_item_id' => $tradeItem->id
+            ])->first();
+
+            if (!$existInventory) {
+                $martian->inventories()->attach($tradeItem->id, [
+                    'qty' => $i['qty']
+                ]);
+            }
+        }
+
+        // martian payload
+        $payload = [
             'name' => $this->faker->name,
-            'age' => 5,
+            'age' => 10,
             'gender' => 'f',
             'allow_trade' => true
         ];
+
+        // inventory result data
+        $inventoryAssertData = [];
+        foreach($martian->inventories as $i) {
+            $inventoryAssertData[] = [
+                'id' => $i->id,
+                'name' => $i->name,
+                'points' => $i->points,
+                'qty' => $i->pivot->qty
+            ];
+        }
 
         $this->json('PUT', 'api/martians/'. $martian->id, $payload, ['Accept' => 'application/json'])
             ->assertStatus(Response::HTTP_OK)
@@ -77,12 +109,7 @@ class MartianTest extends TestCase
                     'age' => $payload['age'],
                     'gender' => $payload['gender'],
                     'allow_trade' => $payload['allow_trade'],
-                    'inventory' => [
-                        [
-                            'name' => 'Water',
-                            'qty' => 5
-                        ]
-                    ]
+                    'inventory' => $inventoryAssertData
                 ]
             ]);
     }
