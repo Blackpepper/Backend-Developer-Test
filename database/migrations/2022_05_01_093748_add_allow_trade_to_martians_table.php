@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('martians', function (Blueprint $table) {
             $table->boolean('allow_trade')
-                ->default(0)
+                ->default(false)
             ;
         });
     }
