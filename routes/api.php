@@ -21,3 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::apiResource('/martians', MartianController::class);
+
+Route::post('/exchange', [MartianController::class, 'exchange']);
