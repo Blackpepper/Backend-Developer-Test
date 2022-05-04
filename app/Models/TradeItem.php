@@ -9,6 +9,13 @@ class TradeItem extends Model
 {
     use HasFactory;
 
+    /**
+     * calculate the qty required to exchange with total values
+     *
+     * @param int $totalValue
+     * @return float|int
+     * @throws \Exception
+     */
     public function calculateQtyToTrade(int $totalValue)
     {
         if ($totalValue % $this->points == 0) {

@@ -130,7 +130,6 @@ class MartianController extends Controller
      * exchange process
      * data provide [
      *      'from_martian_id' => xx,
-     *      'from_trade_item_id' => xx,
      *      'trade_items' => [
      *          [
      *              'name' => xxx,
@@ -154,13 +153,13 @@ class MartianController extends Controller
             // validate incoming data
             $request->validate([
                 'from_martian_id' => 'required|integer',
-                'from_trade_item_id' => 'required|integer',
                 'trade_items' => 'required|array',
                 'to_martian_id' => 'required|integer',
                 'to_trade_item_name' => 'required',
             ]);
 
             // validate incoming data
+            // todo: add more unit tests for the method inside Martian model
 
             // -----------------------------------------------------------------------
             // this is validation part for from martian
@@ -176,29 +175,8 @@ class MartianController extends Controller
             }
 
             // change incoming trade items array format to Eloquent collection
-            $tradeItems = new Collection();
-            foreach($request->get('trade_items') as $data) {
-                /** @var TradeItem $fromTradeItem */
-                $tradeItem = TradeItem::where('name,', $data['name'])->firstOrFail();
+            $tradeItems = $fromMartian->transformArrayTradeItemsToCollection($request->get('trade_items'));
 
-                // double check if from martian has specified trade items
-                if (!$fromMartian->hasTradeItem($fromTradeItem)) {
-                    throw new \Exception(sprintf('%s does not belong to %s',
-                        $fromTradeItem->name,
-                        $fromMartian->name));
-                }
-
-                // double check if from martian has specify correct qty to exchange
-                if (!$fromMartian->hasEnoughTradeItem($fromTradeItem, $data['qty'])) {
-                    throw new \Exception(sprintf('Martian %s does not have enough %s to trade',
-                        $fromMartian->name,
-                        $fromTradeItem->name));
-                }
-
-                $tradeItem->qty = $data['qty'];
-
-                $tradeItems->add($tradeItem);
-            }
 
             // -----------------------------------------------------------------------
             // this is validation part for to martian
@@ -238,7 +216,7 @@ class MartianController extends Controller
             // todo: need to add transaction here to rollback if something happens
 
             // update from martian inventory
-            $fromMartian->updateInventory($tradeItems);
+            $fromMartian->updateInventories($tradeItems);
 
             // update to martian inventory
             $toMartian->updateSingleInventory($toTradeItem, $requiredQty);

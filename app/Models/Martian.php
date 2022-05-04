@@ -38,7 +38,7 @@ class Martian extends Model
      */
     public function hasTradeItem(TradeItem $tradeItem)
     {
-        return $this->inventories()->find($tradeItem->id);
+        return $this->inventories->find($tradeItem->id);
     }
 
     /**
@@ -50,7 +50,7 @@ class Martian extends Model
      */
     public function hasEnoughTradeItem(TradeItem $tradeItem, int $qty)
     {
-        foreach ($this->inventories() as $inventory) {
+        foreach ($this->inventories as $inventory) {
             if ($inventory->id == $tradeItem->id && $inventory->pivot->qty >= $qty) {
                 return true;
             }
@@ -85,7 +85,7 @@ class Martian extends Model
     public function transformArrayTradeItemsToCollection(array $tradeItems)
     {
         $tradeItemCollection = new Collection();
-        foreach($tradeItems as $data) {
+        foreach ($tradeItems as $data) {
             /** @var TradeItem $fromTradeItem */
             $tradeItem = TradeItem::where('name', $data['name'])->firstOrFail();
             $tradeItem->qty = $data['qty'];
@@ -112,22 +112,34 @@ class Martian extends Model
         return $value;
     }
 
+    /**
+     * update multiple trade item inventory
+     *
+     * @param Collection $tradeItems
+     */
     public function updateInventories(Collection $tradeItems)
     {
         foreach ($this->inventories as $i) {
-            if ($foundTradeItem = $tradeItems->find($i->trade_item_id)) {
-                $i->povid->qty = $i->povid->qty - $foundTradeItem->qty;
-                $i->povid->update();
+            foreach ($tradeItems as $tradeItem) {
+                if ($i->id == $tradeItem->id) {
+                    $i->pivot->qty = $i->pivot->qty - $tradeItem->qty;
+                }
             }
         }
-
     }
 
+    /**
+     * update single inventory
+     *
+     * @param TradeItem $tradeItem
+     * @param $qty
+     */
     public function updateSingleInventory(TradeItem $tradeItem, $qty)
     {
         foreach ($this->inventories as $i) {
-            $i->povid->qty = $i->povid->qty - qty;
-            $i->povid->update();
+            if ($i->id == $tradeItem->id) {
+                $i->pivot->qty = $i->pivot->qty - $qty;
+            }
         }
 
     }
