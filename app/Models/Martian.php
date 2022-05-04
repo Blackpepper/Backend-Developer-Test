@@ -128,6 +128,43 @@ class Martian extends Model
         }
     }
 
+
+    /**
+     * add multiple inventories to martian
+     *
+     * @param Collection $tradeItems
+     */
+    public function addInventories(Collection $tradeItems)
+    {
+        foreach($tradeItems as $tradeItem) {
+            $this->addSingleInventory($tradeItem, $tradeItem->qty);
+        }
+    }
+
+
+    /**
+     * add single inventory to martian
+     *
+     * @param TradeItem $tradeItem
+     * @param $qty
+     */
+    public function addSingleInventory(TradeItem $tradeItem, $qty)
+    {
+        $found = false;
+        foreach ($this->inventories as $i) {
+            if ($i->id == $tradeItem->id) {
+                $i->pivot->qty = $i->pivot->qty + $qty;
+                $found = true;
+            }
+        }
+
+        if (!$found) {
+            $this->inventories()->attach($tradeItem,[
+                'qty' => $qty
+            ]);
+        }
+    }
+
     /**
      * update single inventory
      *

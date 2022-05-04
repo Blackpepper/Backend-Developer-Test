@@ -22,7 +22,7 @@ class MartianController extends Controller
      */
     public function index()
     {
-        return new MartianCollection(Martian::all());
+        return MartianResource::collection(Martian::all());
     }
 
     /**
@@ -218,8 +218,12 @@ class MartianController extends Controller
             // update from martian inventory
             $fromMartian->updateInventories($tradeItems);
 
+            $fromMartian->addSingleInventory($toTradeItem, $requiredQty);
+
             // update to martian inventory
             $toMartian->updateSingleInventory($toTradeItem, $requiredQty);
+
+            $toMartian->addInventories($tradeItems);
 
             return response()->json([
                 'message' => 'Exchange done successfully.'
