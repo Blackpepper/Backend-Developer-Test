@@ -22,7 +22,7 @@ class MartianTest extends TestCase
         $faker = \Faker\Factory::create();
 
         $martianData = [
-            'name' => $faker->firstname(),
+            'name' => $faker->name(),
             'age' => 5,
             'gender' => 'f',
             'inventory' => [
@@ -41,7 +41,7 @@ class MartianTest extends TestCase
         $fromMartian = $this->newMartian($martianData);
 
         $martianData = [
-            'name' => $faker->firstname(),
+            'name' => $faker->name(),
             'age' => 5,
             'gender' => 'f',
             'inventory' => [
@@ -78,6 +78,38 @@ class MartianTest extends TestCase
         $this->assertEquals(2, $requiredQty);
     }
 
+
+    /**
+     * test if martian has enough qty for given trade item
+     */
+    public function testHasEnoughTradeItem()
+    {
+        $faker = \Faker\Factory::create();
+
+        $martianData = [
+            'name' => $faker->name(),
+            'age' => 5,
+            'gender' => 'f',
+            'inventory' => [
+                [
+                    'name' => 'Oxygen',
+                    'qty' => rand(5,10),
+                ],
+                [
+                    'name' => 'Medication',
+                    'qty' => rand(5,10),
+                ]
+            ]
+        ];
+
+        /** @var Martian $martian */
+        $martian = $this->newMartian($martianData);
+
+        $tradeItem = TradeItem::where('name', 'Oxygen')->firstOrFail();
+
+        $this->assertTrue($martian->hasEnoughTradeItem($tradeItem, 5));
+
+    }
     /**
      * prepare new margin data for testing
      *
@@ -106,5 +138,100 @@ class MartianTest extends TestCase
         }
 
         return $martian;
+    }
+
+    /**
+     * test if update inventories successfully
+     */
+    public function testUpdateInventoriesSuccessfully()
+    {
+        $faker = \Faker\Factory::create();
+
+        $martianData = [
+            'name' => $faker->name(),
+            'age' => 5,
+            'gender' => 'f',
+            'inventory' => [
+                [
+                    'name' => 'Oxygen',
+                    'qty' => 5,
+                ],
+                [
+                    'name' => 'Medication',
+                    'qty' => 5,
+                ]
+            ]
+        ];
+
+        /** @var Martian $martian */
+        $martian = $this->newMartian($martianData);
+
+        $tradeItems = $martian->transformArrayTradeItemsToCollection([
+            [
+                'name' => 'Oxygen',
+                'qty'  => 3,
+            ],
+            [
+                'name' => 'Medication',
+                'qty'  => 1,
+            ],
+        ]);
+
+        $martian->updateInventories($tradeItems);
+
+        $exptecedQty = 2;
+        $actualQty = null;
+        foreach($martian->inventories as $i) {
+            if ($i->name == 'Oxygen') {
+                $actualQty = $i->pivot->qty;
+                break;
+            }
+        }
+
+        $this->assertEquals($exptecedQty, $actualQty);
+
+    }
+
+    /**
+     * test if update single inventory successfully
+     */
+    public function testUpdateSingleInventorySuccessfully()
+    {
+        $faker = \Faker\Factory::create();
+
+        $martianData = [
+            'name' => $faker->name(),
+            'age' => 5,
+            'gender' => 'f',
+            'inventory' => [
+                [
+                    'name' => 'Oxygen',
+                    'qty' => 5,
+                ],
+                [
+                    'name' => 'Medication',
+                    'qty' => 5,
+                ]
+            ]
+        ];
+
+        /** @var Martian $martian */
+        $martian = $this->newMartian($martianData);
+
+        $tradeItem = TradeItem::where('name','Oxygen')->firstOrFail();
+
+        $martian->updateSingleInventory($tradeItem, 3);
+
+        $exptecedQty = 2;
+        $actualQty = null;
+        foreach($martian->inventories as $i) {
+            if ($i->name == 'Oxygen') {
+                $actualQty = $i->pivot->qty;
+                break;
+            }
+        }
+
+        $this->assertEquals($exptecedQty, $actualQty);
+
     }
 }
