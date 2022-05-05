@@ -38,6 +38,7 @@ class MartianController extends Controller
             $request->validate([
                 'name' => 'required|unique:martians',
                 'age' => 'required|integer',
+                'allow_trade' => 'boolean',
                 'gender' => [
                     'required',
                     Rule::in(['f', 'm']),
@@ -51,7 +52,8 @@ class MartianController extends Controller
             $martian = Martian::create($request->only([
                 'name',
                 'age',
-                'gender'
+                'gender',
+                'allow_trade'
             ]));
 
             // add inventory to martian
@@ -218,11 +220,11 @@ class MartianController extends Controller
             // update from martian inventory
             $fromMartian->updateInventories($tradeItems);
 
-            $fromMartian->addSingleInventory($toTradeItem, $requiredQty);
-
             // update to martian inventory
             $toMartian->updateSingleInventory($toTradeItem, $requiredQty);
 
+            // add inventory after exchange
+            $fromMartian->addSingleInventory($toTradeItem, $requiredQty);
             $toMartian->addInventories($tradeItems);
 
             return response()->json([

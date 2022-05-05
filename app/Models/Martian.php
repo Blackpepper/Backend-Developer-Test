@@ -122,7 +122,10 @@ class Martian extends Model
         foreach ($this->inventories as $i) {
             foreach ($tradeItems as $tradeItem) {
                 if ($i->id == $tradeItem->id) {
-                    $i->pivot->qty = $i->pivot->qty - $tradeItem->qty;
+                    //die('aa'. $i->pivot->qty - $tradeItem->qty);
+                    $this->inventories()->updateExistingPivot($tradeItem->id, [
+                        'qty' => $i->pivot->qty - $tradeItem->qty
+                    ]);
                 }
             }
         }
@@ -175,7 +178,9 @@ class Martian extends Model
     {
         foreach ($this->inventories as $i) {
             if ($i->id == $tradeItem->id) {
-                $i->pivot->qty = $i->pivot->qty - $qty;
+                $this->inventories()->updateExistingPivot($tradeItem->id, [
+                    'qty' => $i->pivot->qty - $qty
+                ]);
             }
         }
 
