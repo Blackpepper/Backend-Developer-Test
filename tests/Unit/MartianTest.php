@@ -179,9 +179,10 @@ class MartianTest extends TestCase
 
         $martian->updateInventories($tradeItems);
 
+        $updateMartian = Martian::find($martian->id);
         $exptecedQty = 2;
         $actualQty = null;
-        foreach($martian->inventories as $i) {
+        foreach($updateMartian->inventories as $i) {
             if ($i->name == 'Oxygen') {
                 $actualQty = $i->pivot->qty;
                 break;
@@ -222,9 +223,11 @@ class MartianTest extends TestCase
 
         $martian->updateSingleInventory($tradeItem, 3);
 
+        $updateMartian = Martian::find($martian->id);
+
         $exptecedQty = 2;
         $actualQty = null;
-        foreach($martian->inventories as $i) {
+        foreach($updateMartian->inventories as $i) {
             if ($i->name == 'Oxygen') {
                 $actualQty = $i->pivot->qty;
                 break;
