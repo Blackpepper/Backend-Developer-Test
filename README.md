@@ -103,13 +103,9 @@ Now you should be able to open the default page
 
 http://localhost:8000/
 
-6. step into laravel-app bash
+6. run migrate with seed
 
->docker exec -it laravel-app bash
-
-run migrate with seed
-
->./artisan migrate --seed
+>docker exec -it laravel-app php artisan migrate --seed
 
 Now you should be able to get API call
 
