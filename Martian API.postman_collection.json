@@ -1,0 +1,165 @@
+{
+	"info": {
+		"_postman_id": "707159dc-6dc4-4a07-b562-a497237a7f0a",
+		"name": "Martian API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "List Martians",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/api/martians",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"martians"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1 - New Martian(Ricky)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Ricky\",\n    \"age\": 5,\n    \"gender\": \"m\",\n    \"allow_trade\": true,\n    \"inventory\": [\n        {\n            \"name\": \"Oxygen\",\n            \"qty\": 5\n        },\n        {\n            \"name\": \"Medication\",\n            \"qty\": 5\n        }\n\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/martians",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"martians"
+					]
+				},
+				"description": "Add new martian"
+			},
+			"response": []
+		},
+		{
+			"name": "2 - New Martian(Susan)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Susan\",\n    \"age\": 5,\n    \"gender\": \"f\",\n    \"allow_trade\": true,\n    \"inventory\": [\n        {\n            \"name\": \"Water\",\n            \"qty\": 5\n        },\n        {\n            \"name\": \"Food\",\n            \"qty\": 5\n        }\n\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/martians",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"martians"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Martian (allow trade)",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"allow_trade\": true\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/martians/1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"martians",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3 - Exchange",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"from_martian_id\": 1,\n    \"trade_items\": [\n        {\n            \"name\": \"Oxygen\",\n            \"qty\": 1\n        },\n        {\n            \"name\": \"Medication\",\n            \"qty\": 1\n        }\n    ],\n    \"to_martian_id\": 2,\n    \"to_trade_item_name\": \"Water\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/exchange",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"exchange"
+					]
+				},
+				"description": "To test this one, you need to add a martian with these trade items:\n\n``` json\n\"inventory\": [\n        {\n            \"name\": \"Oxygen\",\n            \"qty\": 5\n        },\n        {\n            \"name\": \"Medication\",\n            \"qty\": 5\n        }\n    ]\n\n```\n\nand mark down the martian id.\n\nThen add a another new martin with these trade items:\n\n``` json\n\"inventory\": [\n        {\n            \"name\": \"Water\",\n            \"qty\": 5\n        }\n    ]\n\n```\n\nThen use the post body like the request body below to test."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "localhost:8000",
+			"type": "string"
+		}
+	]
+}
