@@ -74,3 +74,72 @@ Fork this repo and send us a pull request when you think you are done. We will n
 > What if I have a question?
 
 Just create a new issue in this repo and we will respond and get back to you quickly.
+
+## Instruction
+
+To setup the enviorment, please follow these steps:
+
+1. clone repository
+
+>get clone git@github.com:Blackpepper/backend-developer-test.git test
+
+2. inside test folder, run
+
+>docker-compose up -d --build --force-recreate --no-deps
+
+3. install components
+
+>docker exec -it laravel-app composer install
+
+4. set .env environment file
+
+>docker exec -it laravel-app mv env-example .env
+
+5. clean laravel cache
+
+>docker exec -it laravel-app php artisan config:cache
+
+Now you should be able to open the default page
+
+http://localhost:8000/
+
+6. step into laravel-app bash
+
+>docker exec -it laravel-app bash
+
+run migrate with seed
+
+>./artisan migrate --seed
+
+Now you should be able to get API call
+
+http://localhost:8000/api/martians
+
+## Test API
+
+1. Import Postman file Martian API.postman_collection to Postman
+
+2. From this order to make request  
+
+> 1 - New Martian(Ricky)
+> 2 - New Martian(Susan)
+
+Run 
+
+>List Martians
+
+to check the inventory
+
+Run last request
+>3 - Exchange
+
+Then Run List Martians to check to inventory to check
+
+## Unit test
+
+run 
+
+> docker exec -it laravel-app php artisan test
+> 
+> 
+
