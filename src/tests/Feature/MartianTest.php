@@ -140,4 +140,13 @@ class MartianTest extends TestCase
 
         $response->assertStatus(404);
     }
+
+    public function test_it_can_delete_a_martian()
+    {
+        $data = Martian::factory()->create();
+
+        $response = $this->json('DELETE', $this->url . "/$data->id");
+
+        $response->assertStatus(204);
+    }
 }
