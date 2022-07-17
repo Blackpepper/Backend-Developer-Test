@@ -18,6 +18,11 @@ class MartianController extends Controller
         $this->martianService = $martianService;
     }
 
+    public function index(Request $request)
+    {
+        return $this->martianService->list($request->input('filter') ?? '');
+    }
+
     public function store(MartianCreateRequest $request): MartianResource
     {
         return new MartianResource(

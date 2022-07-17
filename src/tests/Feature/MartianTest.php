@@ -67,4 +67,17 @@ class MartianTest extends TestCase
         $response->assertStatus(200)
             ->assertSee('updated name');
     }
+
+    public function test_it_can_display_martians()
+    {
+        Martian::factory(10)->create();
+
+        $response = $this->json(
+            'GET',
+            $this->url
+        );
+
+        $response->assertStatus(200)
+            ->assertJsonCount(10, 'data');
+    }
 }
