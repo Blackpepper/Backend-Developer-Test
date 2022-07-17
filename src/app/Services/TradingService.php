@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Exceptions\NotEnoughSupplyException;
 use App\Models\Martian;
 use App\Support\SupplySupport;
 use Illuminate\Support\Collection;
@@ -22,7 +21,7 @@ class TradingService
             SupplySupport::cleanSupplies($buyer, $supplies)
         );
 
-        $data = self::tradingResult();
+        $data = self::formatFormatTradingResult();
 
         self::updateBuyerSupplies($buyer, $data, $sellerSupplies);
 
@@ -95,7 +94,7 @@ class TradingService
         return $total;
     }
 
-    private function tradingResult()
+    private function formatFormatTradingResult()
     {
         return collect($this->tradingResult)
             ->flatten()

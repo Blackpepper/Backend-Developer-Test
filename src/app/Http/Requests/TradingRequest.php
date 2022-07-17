@@ -24,9 +24,26 @@ class TradingRequest extends FormRequest
     public function rules()
     {
         return [
-            /*'buyer' => ['required'],
-            'buyer.id' => ['required'],
-            'seller' => ['required'],
-            'seller.supplies' => ['required'],*/];
+            'buyer' => [
+                'required',
+                'array'
+            ],
+            'buyer.id' => [
+                'required',
+                'numeric'
+            ],
+            'seller' => [
+                'required',
+                'array'
+            ],
+            'seller.id' => [
+                'required',
+                'numeric'
+            ],
+            'seller.supplies' => [
+                'required',
+                'array'
+            ]
+        ];
     }
 }

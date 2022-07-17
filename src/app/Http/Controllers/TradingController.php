@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\MartianCannotDoTradingException;
 use App\Exceptions\NotEnoughSupplyException;
 use App\Http\Requests\TradingRequest;
 use App\Services\MartianService;
@@ -32,7 +33,7 @@ class TradingController extends Controller
         $seller = $this->martianService->findById($data['seller']['id']);
 
         if (MartianSupport::cannotTrade($seller)) {
-            return response()->json(['data' => 'Seller was flagged.'], 403);
+            throw new MartianCannotDoTradingException('Martian cannot do trading.');
         }
 
         if ($this->supplyService->insufficientSupply($seller, $data['seller']['supplies'])) {

@@ -49,8 +49,18 @@ class Handler extends ExceptionHandler
         if ($exception instanceof NotEnoughSupplyException) {
             return response()->json(
                 [
-                    'status' => 400,
+                    'status' => 401,
                     'errors' => 'Oopps! Insufficient Supply.'
+                ],
+                401
+            );
+        }
+
+        if ($exception instanceof MartianCannotDoTradingException) {
+            return response()->json(
+                [
+                    'status' => 401,
+                    'errors' => 'Oopps! Martian cannot do trading.'
                 ],
                 401
             );
