@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SupplyCreateRequest;
 use App\Http\Resources\SupplyResource;
 use App\Models\Supply;
+use App\Services\MartianService;
 use App\Services\SupplyService;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,12 @@ class SupplyController extends Controller
 {
     private SupplyService $supplyService;
 
-    public function __construct(SupplyService $supplyService)
+    private MartianService $martianService;
+
+    public function __construct(SupplyService $supplyService, MartianService $martianService)
     {
         $this->supplyService = $supplyService;
+        $this->martianService = $martianService;
     }
 
     public function index()

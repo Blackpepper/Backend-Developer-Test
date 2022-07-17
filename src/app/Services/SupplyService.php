@@ -20,6 +20,8 @@ class SupplyService
 
     public function findMartianSuppliesByName(Martian $martian, string $name): ?Supply
     {
+        if (is_null($martian->supplies())) return null;
+
         return $martian->supplies->firstWhere('name', '=', $name);
     }
 
