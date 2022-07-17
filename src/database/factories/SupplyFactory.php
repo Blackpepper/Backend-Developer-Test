@@ -15,11 +15,11 @@ class SupplyFactory extends Factory
      */
     public function definition()
     {
-        $data = ['Oxygen' => 6, 'Water' => 4, 'Food' => 3, 'Medication' => 2, 'Clothing' => 1];
+        $data = SupplySupport::allowedSupplies();
 
         $martian = Martian::factory()->create();
 
-        $name = $this->faker->randomElement(array_keys(SupplySupport::allowedSupplies()));
+        $name = $this->faker->randomElement(array_keys($data));
 
         return [
             'name' => $name,
