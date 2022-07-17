@@ -95,4 +95,20 @@ class SupplyTest extends TestCase
             ->assertSee($data->points)
             ->assertSee($data->description);
     }
+
+    public function test_it_cannot_delete_a_supply()
+    {
+        $response = $this->json('DELETE', $this->url . "/100");
+
+        $response->assertStatus(404);
+    }
+
+    public function test_it_can_delete_a_supply()
+    {
+        $data = Supply::factory()->create();
+
+        $response = $this->json('DELETE', $this->url . "/$data->id");
+
+        $response->assertStatus(204);
+    }
 }

@@ -46,6 +46,10 @@ class SupplyController extends Controller
 
     public function destroy(Supply $supply)
     {
-        //
+        if ($this->supplyService->delete($supply)) {
+            return response()->noContent();
+        }
+
+        return response()->json(['data' => 'Supply not found.'], 404);
     }
 }

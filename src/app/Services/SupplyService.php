@@ -41,4 +41,13 @@ class SupplyService
 
         return $supply->fresh();
     }
+
+    public function delete(Supply $supply): bool
+    {
+        if (is_null($supply)) {
+            return false;
+        }
+
+        return $supply->delete();
+    }
 }
