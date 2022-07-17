@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\NotEnoughSupplyException;
 use App\Models\Martian;
 use App\Support\SupplySupport;
 use Illuminate\Support\Collection;
@@ -21,10 +22,7 @@ class TradingService
             SupplySupport::cleanSupplies($buyer, $supplies)
         );
 
-        $data = collect($this->tradingResult)
-            ->flatten()
-            ->countBy()
-            ->all();
+        $data = self::tradingResult();
 
         self::updateBuyerSupplies($buyer, $data, $sellerSupplies);
 
@@ -52,27 +50,8 @@ class TradingService
     {
         foreach ($data as $key => $value) {
 
-            if ($supply = $martian->supplies->firstWhere('name', '=', $value)) {
-                $supply->update(['quantity' => ($supply->quantity - $key)]);
-            }
-        }
-
-        foreach ($sellerSupplies as $data) {
-
-            $supply = $martian->supplies->firstWhere('name', '=', $data['supply']);
-
-            if (!$supply) continue;
-
-            $supply->update(['quantity' => ($supply->quantity + $data['quantity'])]);
-        }
-    }
-
-    private function updateBuyerSupplies(Martian $martian, array $data, Collection $sellerSupplies): void
-    {
-        foreach ($data as $key => $value) {
-
-            if ($supply = $martian->supplies->firstWhere('name', '=', $value)) {
-                $supply->update(['quantity' => ($supply->quantity + $key)]);
+            if ($supply = $martian->supplies->firstWhere('name', '=', $key)) {
+                $supply->update(['quantity' => ($supply->quantity + $value)]);
             }
         }
 
@@ -86,6 +65,25 @@ class TradingService
         }
     }
 
+    private function updateBuyerSupplies(Martian $martian, array $data, Collection $sellerSupplies): void
+    {
+        foreach ($data as $key => $value) {
+
+            if ($supply = $martian->supplies->firstWhere('name', '=', $key)) {
+                $supply->update(['quantity' => ($supply->quantity - $value)]);
+            }
+        }
+
+        foreach ($sellerSupplies as $data) {
+
+            $supply = $martian->supplies->firstWhere('name', '=', $data['supply']);
+
+            if (!$supply) continue;
+
+            $supply->update(['quantity' => ($supply->quantity + $data['quantity'])]);
+        }
+    }
+
     private function countSellerPoints($sellerSupplies)
     {
         $total = 0;
@@ -95,5 +93,13 @@ class TradingService
         }
 
         return $total;
+    }
+
+    private function tradingResult()
+    {
+        return collect($this->tradingResult)
+            ->flatten()
+            ->countBy()
+            ->all();
     }
 }
