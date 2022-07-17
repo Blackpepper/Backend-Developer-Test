@@ -1,0 +1,321 @@
+{
+	"info": {
+		"_postman_id": "21e5bab3-8660-4475-ba26-07b43273882c",
+		"name": "Trading",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Martians",
+			"item": [
+				{
+					"name": "List of Martians",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/martians",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"martians"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Martian Supplies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/martians/1/supplies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"martians",
+								"1",
+								"supplies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Martian",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Martian 2",
+									"type": "default"
+								},
+								{
+									"key": "gender",
+									"value": "Male",
+									"type": "default"
+								},
+								{
+									"key": "age",
+									"value": "33",
+									"type": "default"
+								},
+								{
+									"key": "can_trade",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/martians",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"martians"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Martian",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Martian 11",
+									"type": "default"
+								},
+								{
+									"key": "gender",
+									"value": "Male",
+									"type": "default"
+								},
+								{
+									"key": "age",
+									"value": "33",
+									"type": "default"
+								},
+								{
+									"key": "can_trade",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/martians/1?name=Martian 11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"martians",
+								"1"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Martian 11"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Supplies",
+			"item": [
+				{
+					"name": "List of Supplies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/supplies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"supplies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Supply",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Clothing",
+									"type": "default"
+								},
+								{
+									"key": "description",
+									"value": "Clothing",
+									"type": "default"
+								},
+								{
+									"key": "points",
+									"value": "6",
+									"type": "default"
+								},
+								{
+									"key": "quantity",
+									"value": "11",
+									"type": "default"
+								},
+								{
+									"key": "martian_id",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "status",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/supplies/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"supplies",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Supply",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Martian 1",
+									"type": "default"
+								},
+								{
+									"key": "gender",
+									"value": "Male",
+									"type": "default"
+								},
+								{
+									"key": "age",
+									"value": "33",
+									"type": "default"
+								},
+								{
+									"key": "can_trade",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/supplies/1002?status=0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"supplies",
+								"1002"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Trading",
+			"item": [
+				{
+					"name": "Trade",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"seller\": {\r\n        \"supplies\": [\r\n            {\r\n                \"supply\": \"Water\",\r\n                \"quantity\": 2\r\n            },\r\n            {\r\n                \"supply\": \"Oxygen\",\r\n                \"quantity\": 2\r\n            }\r\n        ]\r\n    },\r\n    \"buyer\": {\r\n        \"id\": 5\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/trades/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"trades",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
