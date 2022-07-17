@@ -34,9 +34,9 @@ class SupplyController extends Controller
         return new SupplyResource($this->supplyService->create($martian, $request->validated()));
     }
 
-    public function show(Supply $supply)
+    public function show(Supply $supply): SupplyResource
     {
-        //
+        return new SupplyResource($supply);
     }
 
     public function update(SupplyUpdateRequest $request, Supply $supply): SupplyResource

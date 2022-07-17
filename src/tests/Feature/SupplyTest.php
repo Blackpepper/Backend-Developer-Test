@@ -68,7 +68,6 @@ class SupplyTest extends TestCase
     public function test_it_can_update_a_supply()
     {
         $data = Supply::factory()->create();
-        $martian = Martian::factory()->create();
 
         $response = $this->json(
             'PUT',
@@ -80,5 +79,20 @@ class SupplyTest extends TestCase
 
         $response->assertStatus(200)
             ->assertSee('updated supply name');
+    }
+
+    public function test_it_can_retrieve_a_supply()
+    {
+        $data = Supply::factory()->create();
+
+        $response = $this->json(
+            'GET',
+            $this->url . "/$data->id"
+        );
+
+        $response->assertStatus(200)
+            ->assertSee($data->name)
+            ->assertSee($data->points)
+            ->assertSee($data->description);
     }
 }

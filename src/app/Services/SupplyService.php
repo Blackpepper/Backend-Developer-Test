@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Martian;
 use App\Models\Supply;
-use Illuminate\Database\Eloquent\Collection;
 
 class SupplyService
 {
