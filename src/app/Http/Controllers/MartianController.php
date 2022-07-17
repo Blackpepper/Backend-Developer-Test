@@ -36,4 +36,9 @@ class MartianController extends Controller
             $this->martianService->update($martian, $request->validated())
         );
     }
+
+    public function show(Martian $martian): MartianResource
+    {
+        return new MartianResource($martian);
+    }
 }

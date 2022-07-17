@@ -115,4 +115,19 @@ class MartianTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonCount(5, 'data');
     }
+
+    public function test_it_can_retrieve_a_martian()
+    {
+        $data = Martian::factory()->create();
+
+        $response = $this->json(
+            'GET',
+            $this->url . "/$data->id"
+        );
+
+        $response->assertStatus(200)
+            ->assertSee($data->name)
+            ->assertSee($data->age)
+            ->assertSee($data->gender);
+    }
 }
