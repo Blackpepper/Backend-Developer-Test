@@ -19,4 +19,11 @@ class Supply extends Model
                 ->orWhere('description', 'LIKE', '%' . $search . '%');
         });
     }
+
+    public function scopeAvailableSupplies(Builder $builder, int $sellerId, string $supply): Builder
+    {
+        return $builder->where('martian_id', '!=', $sellerId)
+            ->where('name', '!=', $supply)
+            ->where('quantity', '>', 0);
+    }
 }

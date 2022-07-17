@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MartianController;
 use App\Http\Controllers\SupplyController;
+use App\Http\Controllers\TradingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
