@@ -130,4 +130,14 @@ class MartianTest extends TestCase
             ->assertSee($data->age)
             ->assertSee($data->gender);
     }
+
+    public function test_it_cannot_retrieve_a_martian()
+    {
+        $response = $this->json(
+            'GET',
+            $this->url . "/1000"
+        );
+
+        $response->assertStatus(404);
+    }
 }
