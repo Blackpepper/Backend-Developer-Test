@@ -66,4 +66,38 @@ class TradingTest extends TestCase
 
         $response->assertStatus(200)->assertJsonStructure(['data' => []]);
     }
+
+    public function test_it_will_throw_an_exception()
+    {
+        $buyer = Martian::factory()->create();
+        $seller = Martian::factory()->create();
+
+        $response = $this->json(
+            'POST',
+            $this->url,
+            [
+                'seller' => [
+                    'id' => $seller->id,
+                    'supplies' => [
+                        [
+                            'supply' => 'Food',
+                            'quantity' => 2
+                        ],
+                        [
+                            'supply' => 'Oxygen',
+                            'quantity' => 1
+                        ]
+                    ]
+                ],
+                'buyer' => [
+                    'id' => $buyer->id
+                ]
+            ]
+        );
+
+        $response->assertStatus(401)
+            ->assertSee('Oopps! Insufficient Supply.');
+
+        $this->assertInstanceOf(NotEnoughSupplyException::class, $response->exception);
+    }
 }

@@ -38,4 +38,24 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    public function report(Throwable $exception)
+    {
+        parent::report($exception);
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof NotEnoughSupplyException) {
+            return response()->json(
+                [
+                    'status' => 400,
+                    'errors' => 'Oopps! Insufficient Supply.'
+                ],
+                401
+            );
+        }
+
+        return parent::render($request, $exception);
+    }
 }

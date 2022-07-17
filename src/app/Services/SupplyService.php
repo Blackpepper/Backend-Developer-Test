@@ -56,4 +56,19 @@ class SupplyService
 
         return $supply->delete();
     }
+
+    public function insufficientSupply(Martian $martian, array $data): bool
+    {
+        foreach ($data as $supply) {
+            if ($martianSupply = $martian->supplies->firstWhere('name', '=', $supply['supply'])) {
+                return $martianSupply->quantity < $supply['quantity'];
+            }
+
+            if (is_null($martianSupply)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
