@@ -14,6 +14,14 @@ class MartianResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'gender' => $this->gender,
+            'age' => $this->age,
+            'can_trade' => $this->can_trade,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at
+        ];
     }
 }

@@ -23,6 +23,19 @@ class MartianTest extends TestCase
             $data->toArray()
         );
 
-        $response->assertStatus(201);
+        $response->assertStatus(201)
+            ->assertJsonStructure([
+                'data' => [
+                    'name',
+                    'age',
+                    'gender',
+                    'can_trade',
+                    'created_at',
+                    'updated_at'
+                ]
+            ])
+            ->assertSee($data->name)
+            ->assertSee($data->age)
+            ->assertSee($data->gender);
     }
 }
