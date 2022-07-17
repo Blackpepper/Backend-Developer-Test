@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Martian;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class MartianTest extends TestCase
@@ -79,5 +80,39 @@ class MartianTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJsonCount(10, 'data');
+    }
+
+    public function test_it_can_display_empty_data_for_filtered_martians()
+    {
+        Martian::factory(5)
+            ->state([
+                'name' => 'Martians ' . Str::random(6)
+            ])
+            ->create();
+
+        $response = $this->json(
+            'GET',
+            $this->url . '?filter=venus'
+        );
+
+        $response->assertStatus(200)
+            ->assertJsonCount(0, 'data');
+    }
+
+    public function test_it_can_display_filtered_martians()
+    {
+        Martian::factory(5)
+            ->state([
+                'name' => 'Martians ' . Str::random(6)
+            ])
+            ->create();
+
+        $response = $this->json(
+            'GET',
+            $this->url . '?filter=martians'
+        );
+
+        $response->assertStatus(200)
+            ->assertJsonCount(5, 'data');
     }
 }
