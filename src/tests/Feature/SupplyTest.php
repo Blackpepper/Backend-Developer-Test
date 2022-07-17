@@ -41,4 +41,25 @@ class SupplyTest extends TestCase
 
         $response->assertStatus(422);
     }
+
+    public function test_it_cannot_create_an_existing_supply_but_can_update()
+    {
+        $martian = Martian::factory()->create();
+        Supply::factory()
+            ->state(['name' => 'Oxygen', 'quantity' => 3])
+            ->create(['martian_id' => $martian->id]);
+        $data = Supply::factory()
+            ->state(['name' => 'Oxygen', 'quantity' => 3])
+            ->create(['martian_id' => $martian->id]);
+
+        $response = $this->json(
+            'POST',
+            $this->url,
+            $data->toArray()
+        );
+
+        $count = $response->json()['data'];
+
+        $this->assertEquals(6, $count['quantity']);
+    }
 }
