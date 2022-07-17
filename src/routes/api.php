@@ -7,3 +7,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResource('martians', MartianController::class);
 Route::apiResource('supplies', SupplyController::class);
+Route::post('trades', [TradingController::class, 'trade']);
