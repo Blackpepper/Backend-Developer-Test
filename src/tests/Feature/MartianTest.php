@@ -149,4 +149,11 @@ class MartianTest extends TestCase
 
         $response->assertStatus(204);
     }
+
+    public function test_it_cannot_delete_a_martian()
+    {
+        $response = $this->json('DELETE', $this->url . "/100");
+
+        $response->assertStatus(404);
+    }
 }
