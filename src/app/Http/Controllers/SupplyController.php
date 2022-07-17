@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SupplyCreateRequest;
+use App\Http\Requests\SupplyUpdateRequest;
 use App\Http\Resources\SupplyResource;
 use App\Models\Supply;
 use App\Services\MartianService;
@@ -38,9 +39,9 @@ class SupplyController extends Controller
         //
     }
 
-    public function update(Request $request, Supply $supply)
+    public function update(SupplyUpdateRequest $request, Supply $supply): SupplyResource
     {
-        //
+        return new SupplyResource($this->supplyService->update($supply, $request->validated()));
     }
 
     public function destroy(Supply $supply)

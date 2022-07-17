@@ -45,9 +45,11 @@ class SupplyTest extends TestCase
     public function test_it_cannot_create_an_existing_supply_but_can_update()
     {
         $martian = Martian::factory()->create();
+
         Supply::factory()
             ->state(['name' => 'Oxygen', 'quantity' => 3])
             ->create(['martian_id' => $martian->id]);
+
         $data = Supply::factory()
             ->state(['name' => 'Oxygen', 'quantity' => 3])
             ->create(['martian_id' => $martian->id]);
@@ -61,5 +63,22 @@ class SupplyTest extends TestCase
         $count = $response->json()['data'];
 
         $this->assertEquals(6, $count['quantity']);
+    }
+
+    public function test_it_can_update_a_supply()
+    {
+        $data = Supply::factory()->create();
+        $martian = Martian::factory()->create();
+
+        $response = $this->json(
+            'PUT',
+            $this->url . "/$data->id",
+            [
+                'name' => 'updated supply name'
+            ]
+        );
+
+        $response->assertStatus(200)
+            ->assertSee('updated supply name');
     }
 }

@@ -35,4 +35,11 @@ class SupplyService
 
         return $martian->supplies()->create($data);
     }
+
+    public function update(Supply $supply, array $data = []): Supply
+    {
+        $supply->update($data);
+
+        return $supply->fresh();
+    }
 }
