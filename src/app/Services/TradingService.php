@@ -71,9 +71,9 @@ class TradingService
     {
         foreach ($data as $key => $value) {
 
-            $supply = $martian->supplies->firstWhere('name', '=', $value);
-
-            $supply->update(['quantity' => ($supply->quantity + $key)]);
+            if ($supply = $martian->supplies->firstWhere('name', '=', $value)) {
+                $supply->update(['quantity' => ($supply->quantity + $key)]);
+            }
         }
 
         foreach ($sellerSupplies as $data) {
