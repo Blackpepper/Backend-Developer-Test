@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MartianCreateRequest;
 use App\Http\Requests\MartianUpdateRequest;
 use App\Http\Resources\MartianResource;
+use App\Http\Resources\SupplyResource;
 use App\Models\Martian;
+use App\Models\Supply;
 use App\Services\MartianService;
 use Illuminate\Http\Request;
 
@@ -49,5 +51,12 @@ class MartianController extends Controller
         }
 
         return response()->json(['data' => 'Martian not found.'], 404);
+    }
+
+    public function showMartianSupply(int $id)
+    {
+        $supplies = Supply::where('martian_id', $id)->get();
+
+        return SupplyResource::collection($supplies);
     }
 }

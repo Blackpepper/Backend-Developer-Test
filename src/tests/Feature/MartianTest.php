@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Martian;
+use App\Models\Supply;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -154,5 +155,19 @@ class MartianTest extends TestCase
         $response = $this->json('DELETE', $this->url . "/100");
 
         $response->assertStatus(404);
+    }
+
+    public function test_it_can_show_all_martian_supplies()
+    {
+        $martian = Martian::factory()->create();
+        $supp = Supply::factory(3)->create(['martian_id' => $martian->id]);
+
+        $response = $this->json(
+            'GET',
+            $this->url . "/$martian->id/supplies"
+        );
+
+        $response->assertStatus(200)
+            ->assertJsonCount(3, 'data');
     }
 }

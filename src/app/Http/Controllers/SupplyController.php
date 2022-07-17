@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SupplyCreateRequest;
 use App\Http\Requests\SupplyUpdateRequest;
 use App\Http\Resources\SupplyResource;
+use App\Models\Martian;
 use App\Models\Supply;
 use App\Services\MartianService;
 use App\Services\SupplyService;
