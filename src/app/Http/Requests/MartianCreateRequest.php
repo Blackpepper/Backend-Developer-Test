@@ -24,7 +24,20 @@ class MartianCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => [
+                'required',
+                'string',
+                'max:150'
+            ],
+            'gender' => [
+                'required',
+                'string',
+                'max:6'
+            ],
+            'age' => [
+                'required',
+                'numeric'
+            ]
         ];
     }
 }
