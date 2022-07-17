@@ -41,4 +41,13 @@ class MartianController extends Controller
     {
         return new MartianResource($martian);
     }
+
+    public function destroy(Martian $martian)
+    {
+        if ($this->martianService->delete($martian)) {
+            return response()->noContent();
+        }
+
+        return response()->json(['data' => 'Martian not found.'], 404);
+    }
 }
