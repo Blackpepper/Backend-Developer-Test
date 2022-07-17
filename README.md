@@ -1,76 +1,81 @@
-# Backend Developer Test
+# docker-compose-laravel
+A pretty simplified Docker Compose workflow that sets up a LEMP network of containers for local Laravel development. You can view the full article that inspired this repo [here](https://dev.to/aschmelyun/the-beauty-of-docker-for-local-laravel-development-13c0).
 
-Be sure to read **all** of this document carefully, and follow the guidelines within.
+## Usage
 
+To get started, make sure you have [Docker installed](https://docs.docker.com/docker-for-mac/install/) on your system, and then clone this repository.
 
-## Problem Description
+Next, navigate in your terminal to the directory you cloned this, and spin up the containers for the web server by running `docker-compose up -d --build site`.
 
-Mars Trading Platform. It is a new civilization and there are no shops but people need supplies to survive. People produce their own supplies and trade what they have for what they don't. 
+After that completes, follow the steps from the [src/README.md](src/README.md) file to get your Laravel project added in (or create a new blank one).
 
-You have been tasked to develop a system to make the trading experience better.
+Bringing up the Docker Compose network with `site` instead of just using `up`, ensures that only our site's containers are brought up at the start, instead of all of the command containers as well. The following are built for our web server, with their exposed ports detailed:
 
+- **nginx** - `:80`
+- **mysql** - `:3306`
+- **php** - `:9000`
+- **redis** - `:6379`
+- **mailhog** - `:8025` 
 
-## Requirements
+Three additional containers are included that handle Composer, NPM, and Artisan commands *without* having to have these platforms installed on your local computer. Use the following command examples from your project root, modifying them to fit your particular use case.
 
-You will develop a ***REST API***, which will store information about the martians, the supplies they own and ability to trade.
+- `docker-compose run --rm composer update`
+- `docker-compose run --rm npm run dev`
+- `docker-compose run --rm artisan migrate`
 
-In order to accomplish this, the API must fulfill the following use cases:
+## Permissions Issues
 
-- **Add martians to the database**
+If you encounter any issues with filesystem permissions while visiting your application or running a container command, try completing one of the sets of steps below.
 
-  A martian must have a *name*, *age*, *gender*.
+**If you are using your server or local environment as the root user:**
 
-  A martian also has an inventory of supplies of their own property (which you need to declare when adding them to the database).
-  
-- **Allow martians to trade**
+- Bring any container(s) down with `docker-compose down`
+- Rename `docker-compose.root.yml` file to `docker-compose.root.yml`, replacing the previous one
+- Re-build the containers by running `docker-compose build --no-cache`
 
-  To ensure the quality of the platform we should allow only top quality supplies to be traded. We need to have a way to flag the martian who don't meet our quality guidelines.
+**If you are using your server or local environment as a user that is not root:**
 
-  An flagged martian cannot trade with others, can't access/manipulate their inventory.
+- Bring any container(s) down with `docker-compose down`
+- In your terminal, run `export UID=$(id -u)` and then `export GID=$(id -g)`
+- If you see any errors about readonly variables from the above step, you can ignore them and continue
+- Re-build the containers by running `docker-compose build --no-cache`
 
-- **Trade items**:
+Then, either bring back up your container network or re-run the command you were trying before, and see if that fixes it.
 
-  Martians can trade supplies among themselves.
+## Persistent MySQL Storage
 
-  To do that, they must respect the price table below, where the value of an item is described in terms of points.
+By default, whenever you bring down the Docker network, your MySQL data will be removed after the containers are destroyed. If you would like to have persistent data that remains after bringing containers down and back up, do the following:
 
-  Both sides of the trade should offer the same amount of points. For example, 1 Oxygen and 1 Medication (1 x 6 + 1 x 2) is worth 2 Water (4 x 2) or 8 Clothing items (1 x 8).
+1. Create a `mysql` folder in the project root, alongside the `nginx` and `src` folders.
+2. Under the mysql service in your `docker-compose.yml` file, add the following lines:
 
-  The trades themselves need not to be stored, but the items must be transferred from one martian to the other.
+```
+volumes:
+  - ./mysql:/var/lib/mysql
+```
 
-| Item         | Points   |
-|--------------|----------|
-| 1 Oxygen     | 6 points |
-| 1 Water      | 4 points |
-| 1 Food       | 3 points |
-| 1 Medication | 2 points |
-| 1 Clothing   | 1 point  |
+## Using BrowserSync with Laravel Mix
 
----------------------------------------
+If you want to enable the hot-reloading that comes with Laravel Mix's BrowserSync option, you'll have to follow a few small steps. First, ensure that you're using the updated `docker-compose.yml` with the `:3000` and `:3001` ports open on the npm service. Then, add the following to the end of your Laravel project's `webpack.mix.js` file:
 
+```javascript
+.browserSync({
+    proxy: 'site',
+    open: false,
+    port: 3000,
+});
+```
 
-## Notes
+From your terminal window at the project root, run the following command to start watching for changes with the npm container and its mapped ports:
 
-1. Please use PHP (Laravel/Symfony)
-2. No authentication is needed (people are busy caring about their lives so no one will try to hack a system while trying to survive);
-3. We still care about proper programming and architecture techniques
-4. Don't forget to make at least a minimal documentation of the API endpoints and how to use them;
-5. Bonus points if you write some automated tests;
-6. From the problem description above you can either do a very bare bones solution or add optional features that are not described. Use your time wisely; the absolute optimal solution might take too long to be effective in the apocalypse, so you must come up with the best possible solution that will hold up within the least ammount of time and still be able to showcase your skills in order to prove your worth.
-7. Write concise and clear commit messages, splitting your changes in little pieces.
+```bash
+docker-compose run --rm --service-ports npm run watch
+```
 
+That should keep a small info pane open in your terminal (which you can exit with Ctrl + C). Visiting [localhost:3000](http://localhost:3000) in your browser should then load up your Laravel application with BrowserSync enabled and hot-reloading active.
 
-## Environment
+## MailHog
 
-You are free to use any setup you like. We prefer docker and you can use a setup similar to [Boilerplate](https://github.com/nanoninja/docker-nginx-php-mysql) or feel free to use your own. Just provide instructions on how to run your application.
+The current version of Laravel (8 as of today) uses MailHog as the default application for testing email sending and general SMTP work during local development. Using the provided Docker Hub image, getting an instance set up and ready is simple and straight-forward. The service is included in the `docker-compose.yml` file, and spins up alongside the webserver and database services.
 
-
-## Q&A
-
-> Where should I send back the result when I'm done?
-
-Fork this repo and send us a pull request when you think you are done. We will note you about deadline directly.
-
-> What if I have a question?
-
-Just create a new issue in this repo and we will respond and get back to you quickly.
+To see the dashboard and view any emails coming through the system, visit [localhost:8025](http://localhost:8025) after running `docker-compose up -d site`.
