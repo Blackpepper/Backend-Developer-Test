@@ -15,11 +15,6 @@ class TradingTest extends TestCase
 
     private string $url = '/api/trades';
 
-    public function setup(): void
-    {
-        parent::setUp();
-    }
-
     public function test_martian_has_successful_trading()
     {
         $buyer = Martian::factory()->create();
@@ -64,7 +59,8 @@ class TradingTest extends TestCase
             ]
         );
 
-        $response->assertStatus(200)->assertJsonStructure(['data' => []]);
+        $response->assertStatus(200)
+            ->assertJsonStructure(['data' => []]);
     }
 
     public function test_it_will_throw_an_exception()
@@ -99,5 +95,53 @@ class TradingTest extends TestCase
             ->assertSee('Oopps! Insufficient Supply.');
 
         $this->assertInstanceOf(NotEnoughSupplyException::class, $response->exception);
+    }
+
+    public function test_martian_did_not_success_to_his_trading()
+    {
+        $buyer = Martian::factory()->create();
+        collect(SupplySupport::allowedSupplies())
+            ->keys()
+            ->each(
+                fn ($supply) => Supply::factory()
+                    ->state(
+                        [
+                            'martian_id' => $buyer->id,
+                            'name' => $supply,
+                            'quantity' => 1
+                        ]
+                    )
+                    ->create()
+            );
+
+        $seller = Martian::factory()->create();
+        Supply::factory()->create(['martian_id' => $seller->id, 'name' => 'Oxygen', 'quantity' => 1]);
+        Supply::factory()->create(['martian_id' => $seller->id, 'name' => 'Clothing', 'quantity' => 2]);
+
+        $response = $this->json(
+            'POST',
+            $this->url,
+            [
+                'seller' => [
+                    'id' => $seller->id,
+                    'supplies' => [
+                        [
+                            'supply' => 'Clothing',
+                            'quantity' => 1
+                        ],
+                        [
+                            'supply' => 'Oxygen',
+                            'quantity' => 1
+                        ]
+                    ]
+                ],
+                'buyer' => [
+                    'id' => $buyer->id
+                ]
+            ]
+        );
+
+        $response->assertStatus(200)
+            ->assertJsonStructure(['data' => []]);
     }
 }
