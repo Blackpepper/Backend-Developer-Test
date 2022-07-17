@@ -38,4 +38,33 @@ class MartianTest extends TestCase
             ->assertSee($data->age)
             ->assertSee($data->gender);
     }
+
+    public function test_it_cannot_create_a_martian()
+    {
+        $response = $this->json(
+            'POST',
+            $this->url,
+            [
+                'name' => 'Faidz'
+            ]
+        );
+
+        $response->assertStatus(422);
+    }
+
+    public function test_it_can_update_a_martian()
+    {
+        $data = Martian::factory()->create();
+
+        $response = $this->json(
+            'PUT',
+            $this->url . "/$data->id",
+            [
+                'name' => 'updated name'
+            ]
+        );
+
+        $response->assertStatus(200)
+            ->assertSee('updated name');
+    }
 }
