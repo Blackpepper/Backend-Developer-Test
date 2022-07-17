@@ -28,4 +28,17 @@ class SupplyTest extends TestCase
         $response->assertStatus(200)
             ->assertSee($data->quantity + $new->quantity);
     }
+
+    public function test_it_cannot_create_a_supply()
+    {
+        $response = $this->json(
+            'POST',
+            $this->url,
+            [
+                'name' => ''
+            ]
+        );
+
+        $response->assertStatus(422);
+    }
 }
