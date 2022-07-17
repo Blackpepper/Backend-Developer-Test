@@ -13,6 +13,53 @@ class SupplyTest extends TestCase
 
     private string $url = '/api/supplies';
 
+    public function test_it_can_display_empty_data_for_filtered_supplies()
+    {
+        Supply::factory(5)
+            ->state([
+                'name' => 'Oxygen'
+            ])
+            ->create();
+
+        $response = $this->json(
+            'GET',
+            $this->url . '?filter=food'
+        );
+
+        $response->assertStatus(200)
+            ->assertJsonCount(0, 'data');
+    }
+
+    public function test_it_can_display_filtered_supplies()
+    {
+        Supply::factory(5)
+            ->state([
+                'name' => 'Food'
+            ])
+            ->create();
+
+        $response = $this->json(
+            'GET',
+            $this->url . '?filter=food'
+        );
+
+        $response->assertStatus(200)
+            ->assertJsonCount(5, 'data');
+    }
+
+    public function test_it_can_display_supplies()
+    {
+        Supply::factory(10)->create();
+
+        $response = $this->json(
+            'GET',
+            $this->url
+        );
+
+        $response->assertStatus(200)
+            ->assertJsonCount(10, 'data');
+    }
+
     public function test_it_can_create_a_supply()
     {
         $martian = Martian::factory()->create();

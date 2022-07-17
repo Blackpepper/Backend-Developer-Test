@@ -22,9 +22,11 @@ class SupplyController extends Controller
         $this->martianService = $martianService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return SupplyResource::collection(
+            $this->supplyService->list($request->input('filter') ?? '')
+        );
     }
 
     public function store(SupplyCreateRequest $request)

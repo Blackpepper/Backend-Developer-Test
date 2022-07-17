@@ -7,6 +7,12 @@ use App\Models\Supply;
 
 class SupplyService
 {
+    public function list(string $search)
+    {
+        return Supply::filterSupply($search)
+            ->paginate(15);
+    }
+
     public function findById(int $id): Supply
     {
         return Supply::find($id);
