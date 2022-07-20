@@ -19,3 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('martians-create', [App\Http\Controllers\Api\MartiansController::class, 'addmartian']);
+
+Route::get('pricetable', [App\Http\Controllers\Api\PriceTableController::class, 'index'])->name('pricetable');
+
