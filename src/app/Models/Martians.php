@@ -16,4 +16,8 @@ class Martians extends Model
         'gender',
         'allow',
     ];
+
+    public function inventorysupplies() {
+        return $this->hasMany(InventorySupplies::class, 'martianid');
+    }
 }

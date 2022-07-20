@@ -6,9 +6,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Martians;
 use App\Http\Controllers\Api\InventorySuppliesController;
+use App\Http\Resources\MartianResource;
 
 class MartiansController extends Controller
 {
+    public function index() {
+        $martian = Martians::Where('allow','!=','0')
+        ->with(['inventorysupplies']);
+    
+        return MartianResource::collection($martian->get());
+    }
+
     public function addmartian(Request $request) {
         $postData = $request->input();
         $martianPost = unserialize($postData['data']);
