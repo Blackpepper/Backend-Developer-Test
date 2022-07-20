@@ -23,3 +23,5 @@ Route::post('martians-create', [App\Http\Controllers\Api\MartiansController::cla
 Route::get('pricetable', [App\Http\Controllers\Api\PriceTableController::class, 'index'])->name('pricetable');
 
 Route::get('martians', [App\Http\Controllers\Api\MartiansController::class, 'index'])->name('martians');
+
+Route::get('martians/{martianid}', [App\Http\Controllers\Api\MartiansController::class, 'show']);
