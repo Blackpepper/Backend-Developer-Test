@@ -90,4 +90,60 @@ class MartiansController extends Controller
             ];
         }
     }
+
+    public function trade(Request $request) {
+        if($request->isMethod('post')) {
+            $postData = $request->input();
+            $tradePost = unserialize($postData['data']);
+
+            $trader1 = $tradePost['trade']['buyFrom']['items'];
+            $trader2 = $tradePost['trade']['sellTo']['items'];
+
+            $MatchPoints = $this->martianService->tradeMatchPoints($trader1, $trader2);
+
+            $trader1_martianid = $tradePost['trade']['buyFrom']['martianid'];
+            $trader2_martianid = $tradePost['trade']['sellTo']['martianid'];
+
+            $trader1allow = $this->martianService->allowedToTrade($trader1_martianid);
+            $trader2allow = $this->martianService->allowedToTrade($trader2_martianid);
+
+            if(($MatchPoints && $trader1allow && $trader2allow) == 1 && $trader1_martianid != $trader2_martianid) {
+
+                $trader1UpdateInventory = (new InventorySuppliesController())->updateSupplies($trader2, $trader1_martianid, $trader2_martianid);
+
+                $trader2UpdateInventory = (new InventorySuppliesController())->updateSupplies($trader1, $trader2_martianid, $trader1_martianid);
+                
+            }
+
+            $msg = '';
+            $status = '';
+
+            if($MatchPoints != 1) {
+                $msg .= 'Both side of the trade does not match amount of points!<br/>';
+            }
+
+            if($trader1allow != 1 || $trader2allow != 1) {
+                $msg .= 'One of the trader is not allowed to!<br>';
+            }
+
+            if($trader1_martianid == $trader2_martianid) {
+                $msg .= 'Not allowed!';
+            }
+
+            $status = (!empty($msg)) ? false : true;
+            $msg = (!empty($msg)) ? 'Error trading! '.$msg : 'Successfully Traded!';
+            
+
+            return [
+                'status' => $status,
+                'msg' => $msg,
+            ];
+
+        } else {
+            return [
+                'status' => false,
+                'msg' => 'Error!',
+            ];
+        }
+    }
 }
