@@ -1,0 +1,35 @@
+{
+	"data": [
+	{
+		"martianid": 1,
+		"name": "John",
+		"age": "31",
+		"allow": 1,
+		"inventory": [
+		{
+			"itemid": "2",
+			"quantity": "20",
+			"name": "Water",
+			"points": "4"
+		},
+		{
+			"itemid": "5",
+			"quantity": "10",
+			"name": "Clothing",
+			"points": "1"
+		}]
+	},
+	{
+		"martianid": 2,
+		"name": "Mark",
+		"age": "30",
+		"allow": 1,
+		"inventory": [
+		{
+			"itemid": "3",
+			"quantity": "30",
+			"name": "Food",
+			"points": "3"
+		}]
+	}]
+}

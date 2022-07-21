@@ -1,0 +1,1 @@
+domain-name/public/api/martians-create
