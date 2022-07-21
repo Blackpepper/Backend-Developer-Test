@@ -21,4 +21,11 @@ class MartianTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_to_show_api_endpoint_price_table()
+    {
+        $response = $this->get('/api/pricetable');
+
+        $response->assertStatus(200);
+    }
+
 }
