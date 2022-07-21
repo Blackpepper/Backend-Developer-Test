@@ -1,0 +1,23 @@
+{
+	"status": true,
+	"data":
+	{
+		"martianid": 1,
+		"name": "John",
+		"age": "31",
+		"allow": 1,
+		"inventory": [
+		{
+			"itemid": "2",
+			"quantity": "20",
+			"name": "Water",
+			"points": "4"
+		},
+		{
+			"itemid": "5",
+			"quantity": "10",
+			"name": "Clothing",
+			"points": "1"
+		}]
+	}
+}
