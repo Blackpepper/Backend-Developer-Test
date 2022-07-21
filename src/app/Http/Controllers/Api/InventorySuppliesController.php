@@ -86,4 +86,51 @@ class InventorySuppliesController extends Controller
             }
         }
     }
+
+    public function tradeInStock($traderArr) {
+
+        $trade1list = [];
+        foreach($traderArr['buyFrom']['trader1'] as $items) {
+            $martianid = $traderArr['buyFrom']['martianid'];
+            $itemid = $items['itemid'];
+            $quantity = $items['quantity'];
+
+            $trader1_sup = InventorySupplies::where([
+                ['itemid','=',$itemid],
+                ['martianid','=',$martianid],
+            ])
+            ->select('quantity')
+            ->first();
+
+            $trader1currentqty = $trader1_sup->quantity;
+
+            $stockItemStatus = ($trader1currentqty >= $quantity) ? 1 : 0;
+            $trade1list[] = $stockItemStatus;
+        }
+        $trade1StockStatus = (in_array(0, $trade1list)) ? 0 : 1;
+
+        $trade2list = [];
+        foreach($traderArr['sellTo']['trader2'] as $items) {
+            $martianid = $traderArr['sellTo']['martianid'];
+            $itemid = $items['itemid'];
+            $quantity = $items['quantity'];
+
+            $trader2_sup = InventorySupplies::where([
+                ['itemid','=',$itemid],
+                ['martianid','=',$martianid],
+            ])
+            ->select('quantity')
+            ->first();
+
+            $trader2currentqty = $trader2_sup->quantity;
+
+            $stockItemStatus = ($trader2currentqty >= $quantity) ? 1 : 0;
+            $trade2list[] = $stockItemStatus;
+        }
+        $trade2StockStatus = (in_array(0, $trade2list)) ? 0 : 1;
+
+        $res = (($trade1StockStatus && $trade2StockStatus) == 1) ? 1 : 0;
+
+        return $res;
+    }
 }

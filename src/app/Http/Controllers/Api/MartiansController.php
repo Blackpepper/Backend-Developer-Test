@@ -107,7 +107,21 @@ class MartiansController extends Controller
             $trader1allow = $this->martianService->allowedToTrade($trader1_martianid);
             $trader2allow = $this->martianService->allowedToTrade($trader2_martianid);
 
-            if(($MatchPoints && $trader1allow && $trader2allow) == 1 && $trader1_martianid != $trader2_martianid) {
+            $stockStatus = [
+                'buyFrom' => [
+                    'martianid' => $trader1_martianid,
+                    'trader1' => $trader1,
+                ],
+                'sellTo' => [
+                    'martianid' => $trader2_martianid,
+                    'trader2' => $trader2,
+                ],
+
+            ];
+
+            $InStock = (new InventorySuppliesController())->tradeInStock($stockStatus);
+
+            if(($MatchPoints && $trader1allow && $trader2allow && $InStock) == 1 && $trader1_martianid != $trader2_martianid) {
 
                 $trader1UpdateInventory = (new InventorySuppliesController())->updateSupplies($trader2, $trader1_martianid, $trader2_martianid);
 
@@ -128,6 +142,10 @@ class MartiansController extends Controller
 
             if($trader1_martianid == $trader2_martianid) {
                 $msg .= 'Not allowed!';
+            }
+
+            if($InStock != 1 ) {
+                $msg .= 'One of the item stock is not enough to trade!<br/>';
             }
 
             $status = (!empty($msg)) ? false : true;
