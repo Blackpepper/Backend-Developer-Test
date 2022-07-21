@@ -68,5 +68,11 @@ class MartianTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_to_allow_martian_to_trade_or_not()
+    {
+        $allowStatus = (new MartianService())->allowedToTrade(1);
+        $this->assertEquals(1, $allowStatus);
+    }
+
 
 }
