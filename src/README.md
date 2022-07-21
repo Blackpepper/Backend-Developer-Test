@@ -3,7 +3,7 @@
 This repository is the Answer for the Back End Developer Test
 
 ## Instructions to install
-1. Copy the files below into your root working directory (outside 'src' directory).
+1. Copy the files below and paste it into your root working directory (outside 'src' directory).
 - docker-compose.yml
 - Dockerfile
 
