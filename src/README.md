@@ -20,7 +20,9 @@ http://localhost:8000/
 http://localhost:8008/
 
 Credentials
+
 Username: root
+
 Password: password
 
 6. Create a database name 'mars_trading_db' on phpmyadmin.
