@@ -28,4 +28,45 @@ class MartianTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_to_show_api_endpoint_get_martian_by_id()
+    {
+        $response = $this->get('/api/martians/8');
+
+        $response->assertStatus(200);
+    }
+
+    public function test_to_store_new_martian_and_inventory_to_database()
+    {
+
+        $postData = [
+            'name' => 'John',
+            'age' => '31',
+            'gender' => 'M',
+            'allow' => '1',
+            'inventory' => [
+                [
+                    'itemid' => '2',
+                    'quantity' => '20',
+                ],
+                [
+                    'itemid' => '3',
+                    'quantity' => '20',
+                ],
+                [
+                    'itemid' => '5',
+                    'quantity' => '20',
+                ],
+            ],
+        ];
+
+        $dataArr = serialize($postData);
+
+        $response = $this->post('api/martians-create',[
+            'data' => $dataArr,
+        ]);
+
+        $response->assertStatus(200);
+    }
+
+
 }
