@@ -18,7 +18,6 @@ class CreateInventoryTable extends Migration
             $table->integer('martian_id')->unsigned();
             $table->string('name');
             $table->integer('points')->default(0)->unsigned();
-            $table->integer('quantity')->default(0)->unsigned();
             $table->timestamps();
         });
     }
