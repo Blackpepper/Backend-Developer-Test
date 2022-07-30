@@ -4,7 +4,9 @@ namespace Tests\Feature;
 
 use App\Models\Inventory;
 use App\Models\Martian;
+use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
@@ -20,11 +22,13 @@ class InventoryTest extends TestCase
     {
         Martian::factory(1)->create();
         $martian = Martian::first();
-
+        
+        Artisan::call('db:seed --class=ProductSeeder');
+        $product = Product::first();
         $response = $this->post("/api/martians/inventories",[
             "martian_id" => $martian->id,
-            "name" => "Test Product #{$martian->id}",
-            "points" => 6
+            "product_id" => $product->id,
+            "qty" => 1
         ]);
 
         $response->assertStatus(201);
@@ -34,16 +38,19 @@ class InventoryTest extends TestCase
     {
         Martian::factory(1)->create();
         $martian = Martian::first();
+        Artisan::call('db:seed --class=ProductSeeder');
+        $product = Product::first();
+
         $inventory = Inventory::create([
             "martian_id" => $martian->id,
-            "name" => "Test Product #{$martian->id}",
-            "points" => 6
+            "product_id" => $product->id,
+            "qty" => 10
         ]);
 
         $response = $this->put("/api/martians/inventories/{$inventory->id}",[
             "martian_id" => $martian->id,
-            "name" => "Product Test Update",
-            "points" => 6
+            "product_id" => $product->id,
+            "qty" => 1,
         ]);
 
         $response->assertStatus(200);
@@ -53,10 +60,14 @@ class InventoryTest extends TestCase
     {
         Martian::factory(1)->create();
         $martian = Martian::first();
+
+        Artisan::call('db:seed --class=ProductSeeder');
+        $product = Product::first();
+
         $inventory = Inventory::create([
             "martian_id" => $martian->id,
-            "name" => "Test Product #{$martian->id}",
-            "points" => 6
+            "product_id" => $product->id,
+            "qty" => 1,
         ]);
 
         $response = $this->get("/api/martians/{$martian->id}/inventories/{$inventory->id}");
@@ -77,12 +88,14 @@ class InventoryTest extends TestCase
             "can_trade" => false
         ]);
 
-        // $martian = Martian::first();
+        
+        Artisan::call('db:seed --class=ProductSeeder');
+        $product = Product::first();
 
         $response = $this->post("/api/martians/inventories",[
             "martian_id" => $martian->id,
-            "name" => "Test Product #{$martian->id}",
-            "points" => 6
+            "product_id" => $product->id,
+            "qty" => 1,
         ]);
 
         $response->assertStatus(400);
@@ -98,17 +111,21 @@ class InventoryTest extends TestCase
         ]);
 
         // $martian = Martian::first();
+        Artisan::call('db:seed --class=ProductSeeder');
+        $product = Product::first();
 
         $inventory = Inventory::create([
             "martian_id" => $martian->id,
-            "name" => "Test Product #{$martian->id}",
-            "points" => 6
+            "product_id" => $product->id,
+            "qty" => 1,
         ]);
+
+        
 
         $response = $this->put("/api/martians/inventories/{$inventory->id}",[
             "martian_id" => $martian->id,
-            "name" => "Product Test Update",
-            "points" => 6
+            "product_id" => $product->id,
+            "qty" => 10,
         ]);
 
         $response->assertStatus(400);

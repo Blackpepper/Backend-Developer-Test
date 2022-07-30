@@ -17,11 +17,13 @@ class DatabaseSeeder extends Seeder
     {
         //refresh data
         DB::table('martians')->truncate();
+        DB::table('products')->truncate();
         DB::table('inventories')->truncate();
 
         Martian::factory(2)->create();
 
         $this->call([
+            ProductSeeder::class,
             InventorySeeder::class,
         ]);
     }

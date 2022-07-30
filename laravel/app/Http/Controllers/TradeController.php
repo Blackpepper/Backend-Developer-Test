@@ -41,9 +41,13 @@ class TradeController extends Controller
         $request->validate([
             'martian_id' => 'required',
             'items' => 'required|array',
+            'items.*.item_id' => 'required|numeric',
+            'items.*.qty' => 'required|numeric',
             'right_trader' => 'required',
             'right_trader.martian_id' => 'required',
             'right_trader.items' => 'required|array',
+            'right_trader.items.*.item_id' => 'required|numeric',
+            'right_trader.items.*.qty' => 'required|numeric',
         ]);
 
         
@@ -65,8 +69,9 @@ class TradeController extends Controller
         }
 
         // check if items of left trader are valid
+        $leftItemsIds = collect($request->items)->pluck('item_id')->all();
         $leftTraderInventory = Inventory::where('martian_id', $leftTraderId)
-        ->whereIn('id', $request->items)
+        ->whereIn('id', $leftItemsIds)
         ->get();
 
         $itemsFound = $leftTraderInventory->pluck('id')->toArray();
@@ -74,7 +79,7 @@ class TradeController extends Controller
         // check trader items if exist on his inventory
         $leftTraderHasInvalidItem = false;
         foreach ($request->items as $item) {
-            if(!in_array($item, $itemsFound)) {
+            if(!in_array($item['item_id'], $itemsFound)) {
                 $leftTraderHasInvalidItem = true;
                 break;
             }
@@ -88,8 +93,9 @@ class TradeController extends Controller
         }
 
         // check if items of right trader are valid
+        $rightItemsIds = collect($rightTrader['items'])->pluck('item_id')->all();
         $rightTraderInventory = Inventory::where('martian_id', $rightTrader['martian_id'])
-        ->whereIn('id', $rightTrader['items'])
+        ->whereIn('id', $rightItemsIds)
         ->get();
 
         $itemsFound = $rightTraderInventory->pluck('id')->toArray();
@@ -97,7 +103,7 @@ class TradeController extends Controller
         // check trader items if exist on his inventory
         $rightTraderHasInvalidItem = false;
         foreach ($rightTrader['items'] as $item) {
-            if(!in_array($item, $itemsFound)) {
+            if(!in_array($item['item_id'], $itemsFound)) {
                 $rightTraderHasInvalidItem = true;
                 break;
             }
@@ -110,8 +116,17 @@ class TradeController extends Controller
             ], 400);
         }
 
-        $leftTraderItemsTotalPoints = $leftTraderInventory->sum('points');
-        $rightTraderItemsTotalPoints = $rightTraderInventory->sum('points');
+        $leftTraderItemsTotalPoints = 0;
+        foreach($request->items as $item) {
+            $tradeItem = $leftTraderInventory->firstWhere('id', $item['item_id']);
+            $leftTraderItemsTotalPoints += $tradeItem->points * $item['qty'];
+        }
+
+        $rightTraderItemsTotalPoints = 0;
+        foreach($rightTrader['items'] as $item) {
+            $tradeItem = $rightTraderInventory->firstWhere('id', $item['item_id']);
+            $rightTraderItemsTotalPoints += $tradeItem->points * $item['qty'];
+        }
 
         // check if trader points are equal
         if($leftTraderItemsTotalPoints !== $rightTraderItemsTotalPoints) {
@@ -127,19 +142,25 @@ class TradeController extends Controller
                 ]
             ], 400);
         }
-
+        
         try {
             //proceed trading
             // DB::connection()->enableQueryLog();
             DB::beginTransaction();
-            //swap trader items owner by martian_id on inventories table
-            $leftItemIds = $leftTraderInventory->pluck('id')->all();
-            $rightItemsIds = $rightTraderInventory->pluck('id')->all();
+            
+            // $leftItemIds = $leftTraderInventory->pluck('id')->all();
+            // $rightItemsIds = $rightTraderInventory->pluck('id')->all();
 
             // left trader items will change martian_id to right martian_id
-            DB::table('inventories')->whereIn('id', $leftItemIds)->update([
-                'martian_id' => $rightTrader['martian_id']
-            ]);
+            
+            foreach($request->items as $tradeItem) {
+                // less to qty owner
+                // DB::raw('amt_gross_pay - amt_total_deductions')
+                $productItem = $leftTraderInventory->firstWhere('id', $tradeItem['item_id']);
+                DB::table('inventories')->where('id', $tradeItem['item_id'])
+                ->update(['qty' => $productItem->qty - $tradeItem['qty']])
+                // add qty to trader
+            }
 
             // right trader items will change martian_id to left martian_id
             DB::table('inventories')->whereIn('id', $rightItemsIds)->update([

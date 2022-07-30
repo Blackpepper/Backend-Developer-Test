@@ -15,7 +15,10 @@ class InventoryController extends Controller
      */
     public function index($martianId)
     {
-        $inventories = Inventory::where('martian_id', $martianId)->get();
+        $inventories = Inventory::with('product')
+        ->where('martian_id', $martianId)
+        ->get();
+
         return response()->json([
             'message' => 'Inventory List',
             'data' => $inventories
@@ -42,14 +45,14 @@ class InventoryController extends Controller
     {
         $request->validate([
             'martian_id' => 'required',
-            'name' => 'required|max:255',
-            'points' => 'required|numeric',
+            'product_id' => 'required',
+            'qty' => 'required|numeric'
         ]);
         
         $inventory = Inventory::create([
             'martian_id' => $request->martian_id,
-            'name' => $request->name,
-            'points' => $request->points
+            'product_id' => $request->product_id,
+            'qty' => $request->qty,
         ]);
 
         return response()->json([
@@ -66,7 +69,8 @@ class InventoryController extends Controller
      */
     public function show($martianId, $id)
     {
-        $inventory = Inventory::where('martian_id', $martianId)
+        $inventory = Inventory::with('product')
+        ->where('martian_id', $martianId)
         ->where('id', $id)
         ->first();
 
@@ -104,8 +108,7 @@ class InventoryController extends Controller
     {
         $request->validate([
             'martian_id' => 'required',
-            'name' => 'required|max:255',
-            'points' => 'required|numeric',
+            'qty' => 'required|numeric'
         ]);
         
         $inventory = Inventory::where('martian_id', $request->martian_id)->where('id', $id)->first();
@@ -116,8 +119,7 @@ class InventoryController extends Controller
             ], 404);
         }
 
-        $inventory->name = $request->name;
-        $inventory->points = $request->points;
+        $inventory->qty = $request->qty;
         $inventory->save();
 
         return response()->json([

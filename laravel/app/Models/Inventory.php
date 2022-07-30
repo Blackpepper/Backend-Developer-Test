@@ -15,4 +15,9 @@ class Inventory extends Model
     {
         return $this->belongsTo(Martian::class);
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

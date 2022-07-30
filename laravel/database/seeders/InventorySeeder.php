@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Inventory;
 use App\Models\Martian;
+use App\Models\Product;
 use Illuminate\Database\Seeder;
 
 class InventorySeeder extends Seeder
@@ -15,34 +16,16 @@ class InventorySeeder extends Seeder
      */
     public function run()
     {
-        $items = [
-            [
-                'name' => 'Oxygen',
-                'points' => 6,
-            ],
-            [
-                'name' => 'Water',
-                'points' => 4,
-            ],
-            [
-                'name' => 'Food',
-                'points' => 3,
-            ],
-            [
-                'name' => 'Medication',
-                'points' => 2,
-            ],
-            [
-                'name' => 'Clothing',
-                'points' => 1,
-            ],
-        ];
 
         $martians = Martian::all();
+        $products = Product::all();
         foreach ($martians as $martian) {
-            foreach ($items as $item) {
-                $item['martian_id'] = $martian->id;
-                Inventory::create($item);
+            foreach ($products as $product) {
+                Inventory::create([
+                    'martian_id' => $martian->id,
+                    'product_id' => $product->id,
+                    'qty' => 10
+                ]);
             }
         }
     }
