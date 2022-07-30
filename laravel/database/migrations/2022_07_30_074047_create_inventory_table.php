@@ -13,8 +13,9 @@ class CreateInventoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('inventory', function (Blueprint $table) {
+        Schema::create('inventories', function (Blueprint $table) {
             $table->id();
+            $table->integer('martian_id')->unsigned();
             $table->string('name');
             $table->integer('points')->default(0)->unsigned();
             $table->integer('quantity')->default(0)->unsigned();

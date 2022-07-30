@@ -13,7 +13,7 @@ class CreateMartianTable extends Migration
      */
     public function up()
     {
-        Schema::create('martian', function (Blueprint $table) {
+        Schema::create('martians', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->tinyInteger('age');
@@ -30,6 +30,6 @@ class CreateMartianTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('martian');
+        Schema::dropIfExists('martians');
     }
 }
