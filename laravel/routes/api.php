@@ -3,6 +3,7 @@
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\MartianController;
 use App\Http\Controllers\TradeController;
+use App\Http\Middleware\CanTrade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,19 +26,21 @@ Route::get('test', function() {
     return 'test route';
 });
 
-// martian routes
-Route::get('martians', [MartianController::class, 'index']);
-Route::get('martians/{id}', [MartianController::class, 'show']);
-Route::put('martians/{id}', [MartianController::class, 'update']);
-Route::post('martians', [MartianController::class, 'store']);
+Route::prefix('martians')->group(function() {
+    // martian routes
+    Route::get('', [MartianController::class, 'index']);
+    Route::get('{martianId}', [MartianController::class, 'show']);
+    Route::put('{martianId}', [MartianController::class, 'update']);
+    Route::post('', [MartianController::class, 'store']);
 
+    Route::middleware([CanTrade::class])->group(function(){
+        // inventory routes
+        Route::get('{martianId}/inventories', [InventoryController::class, 'index'])->withoutMiddleware([CanTrade::class]);
+        Route::get('{martianId}/inventories/{inventoryId}', [InventoryController::class, 'show'])->withoutMiddleware([CanTrade::class]);
+        Route::put('{martianId}/inventories/{inventoryId}', [InventoryController::class, 'update']);
+        Route::post('{martianId}/inventories', [InventoryController::class, 'store']);
 
-// inventory routes
-Route::get('inventories', [InventoryController::class, 'index']);
-Route::get('inventories/{id}', [InventoryController::class, 'show']);
-Route::put('inventories/{id}', [InventoryController::class, 'update']);
-Route::patch('inventories/{id}', [InventoryController::class, 'updateInventoryStocks']);
-Route::post('inventories', [InventoryController::class, 'store']);
-
-// trading routes
-Route::post('trade', [TradeController::class, 'store']);
+        // trading routes
+        Route::post('{martianId}/trade', [TradeController::class, 'store']);
+    });
+});

@@ -36,11 +36,10 @@ class TradeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $martianId)
     {
         $request->validate([
             'left_trader' => 'required',
-            'left_trader.martian_id' => 'required',
             'left_trader.items' => 'required|array',
             'right_trader' => 'required',
             'right_trader.martian_id' => 'required',
@@ -50,8 +49,14 @@ class TradeController extends Controller
         $leftTrader = $request->left_trader;
         $rightTrader = $request->right_trader;
 
+        if($martianId === $rightTrader['martian_id']) {
+            return response()->json([
+                'message' => 'Martian should not trade on itself',
+            ], 400);
+        }
+
         // check if left trader exist
-        $leftTraderExist = Martian::find($leftTrader['martian_id']);
+        $leftTraderExist = Martian::find($martianId);
         if(!$leftTraderExist) {
             return response()->json([
                 'message' => 'Martian left trader not exist',
@@ -67,7 +72,7 @@ class TradeController extends Controller
         }
 
         // check if items of left trader are valid
-        $leftTraderInventory = Inventory::where('martian_id', $leftTrader['martian_id'])
+        $leftTraderInventory = Inventory::where('martian_id', $martianId)
         ->whereIn('id', $leftTrader['items'])
         ->get();
 
@@ -132,7 +137,7 @@ class TradeController extends Controller
 
         try {
             //proceed trading
-            DB::connection()->enableQueryLog();
+            // DB::connection()->enableQueryLog();
             DB::beginTransaction();
             //swap trader items owner by martian_id on inventories table
             $leftItemIds = $leftTraderInventory->pluck('id')->all();
@@ -145,10 +150,10 @@ class TradeController extends Controller
 
             // right trader items will change martian_id to left martian_id
             DB::table('inventories')->whereIn('id', $rightItemsIds)->update([
-                'martian_id' => $leftTrader['martian_id']
+                'martian_id' => $martianId
             ]);
-            $queries = DB::getQueryLog();
-            Log::info($queries);
+            // $queries = DB::getQueryLog();
+            // Log::info($queries);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();

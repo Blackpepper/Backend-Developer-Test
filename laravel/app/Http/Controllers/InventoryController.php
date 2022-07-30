@@ -13,9 +13,9 @@ class InventoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($martianId)
     {
-        $inventories = Inventory::all();
+        $inventories = Inventory::where('martian_id', $martianId)->get();
         return response()->json([
             'message' => 'Inventory List',
             'data' => $inventories
@@ -38,16 +38,14 @@ class InventoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $martianId)
     {
         $request->validate([
-            'martian_id' => 'required|numeric',
             'name' => 'required|max:255',
             'points' => 'required|numeric',
-            'quantity' => 'required|numeric',
         ]);
 
-        $martian = Martian::find($request->martian_id);
+        $martian = Martian::find($martianId);
 
         if(!$martian) {
             return response()->json([
@@ -56,10 +54,9 @@ class InventoryController extends Controller
         }
         
         $inventory = Inventory::create([
-            'martian_id' => $request->martian_id,
+            'martian_id' => $martianId,
             'name' => $request->name,
-            'points' => $request->points,
-            'quantity' => $request->quantity
+            'points' => $request->points
         ]);
 
         return response()->json([
@@ -74,9 +71,11 @@ class InventoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($martianId, $id)
     {
-        $inventory = Inventory::with('martian')->where('id', $id)->first();
+        $inventory = Inventory::where('martian_id', $martianId)
+        ->where('id', $id)
+        ->first();
 
         if(!$inventory) {
             return response()->json([
@@ -108,15 +107,14 @@ class InventoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $martianId, $id)
     {
         $request->validate([
             'name' => 'required|max:255',
             'points' => 'required|numeric',
-            'quantity' => 'required|numeric',
         ]);
         
-        $inventory = Inventory::find($id);
+        $inventory = Inventory::where('martian_id', $martianId)->where('id', $id)->first();
 
         if(!$inventory) {
             return response()->json([
@@ -126,30 +124,10 @@ class InventoryController extends Controller
 
         $inventory->name = $request->name;
         $inventory->points = $request->points;
-        $inventory->quantity = $request->quantity;
         $inventory->save();
 
         return response()->json([
             'message' => 'Inventory updated',
-            'data' => $inventory
-        ], 200);
-    }
-
-    public function updateInventoryStocks(Request $request, $id)
-    {
-        $inventory = Inventory::find($id);
-
-        if(!$inventory) {
-            return response()->json([
-                'message' => 'Inventory not found',
-            ], 404);
-        }
-
-        $inventory->quantity = $request->stock_quantity;
-        $inventory->save();
-
-        return response()->json([
-            'message' => 'Inventory stock updated',
             'data' => $inventory
         ], 200);
     }
