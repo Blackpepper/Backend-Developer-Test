@@ -1,0 +1,21 @@
+Note: I uploaded the .env file so that we can easily setup and run the application.
+
+#1. Build docker images
+    docker-compose build
+#2. Run the app containers
+    docker-compose up -d
+#3. Install laravel dependecies
+    docker-compose exec app composer install
+#4. Run migrations
+    docker-compose exec app php artisan migrate
+#5. Run automated tests
+    docker-compose exec app php artisan test
+Note: running automated tests will truncate db data. To test api via postman or swagger api docs we need to run seeders or you can add manually
+
+#6. Testing api via swagger api docs
+  docker-compose exec app php artisan db:seed
+
+  copy the file contents of api-docs.yml on the root directory of this project.
+  Then go to https://editor.swagger.io/ and paste the content in that editor.
+
+Enjoy playing around on the api docs. 🙂
