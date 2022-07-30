@@ -8,9 +8,8 @@ servers:
 tags:
   - name: Martians
     description: Martian functionalities
-  # - name: Cardholder
-  #   description: Cardholder functionalities
-  # - name: Utility
+  - name: Inventories
+    description: Martian Inventory and Supplies
 paths:
   /api/martians:
     description: Martian Resource
@@ -67,7 +66,9 @@ paths:
                   message:
                     type: string
                   data:
-                    $ref: "#/components/schemas/martian_inventories"
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/martian_inventories"
 
   /api/martians/{id}:
     parameters:
@@ -75,7 +76,7 @@ paths:
           type: string
         name: id
         in: path
-        description: Unique cardholder identifier.
+        description: Unique martian identifier.
         required: true
     description: Martian Resource
     get:
@@ -150,6 +151,68 @@ paths:
                 properties:
                   message:
                     type: string
+
+  /api/martians/{id}/inventories:
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        description: Unique martian identifier.
+        required: true
+    description: Inventory Resource
+    get:
+      tags:
+        - Inventories
+      description: Get Martian Inventory Information
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/inventory"
+
+  /api/martians/{martianId}/inventories/{id}:
+    parameters:
+      - schema:
+          type: string
+        name: martianId
+        in: path
+        description: Unique martian identifier.
+        required: true
+      - schema:
+          type: string
+        name: id
+        in: path
+        description: Unique inventory identifier.
+        required: true
+    description: Inventory Resource
+    get:
+      tags:
+        - Inventories
+      description: Get Martian Inventory Information
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/inventory"
 
 components:
   schemas:
