@@ -8,9 +8,11 @@ Note: I uploaded the .env file so that we can easily setup and run the applicati
     docker-compose exec app composer install
 #4. Run migrations
     docker-compose exec app php artisan migrate
-#5. Run automated tests
+#5. Run sudo command to avoid permission issue
+    sudo chmod -R 777 laravel/storage
+#6. Run automated tests
     docker-compose exec app php artisan test
-#6. Testing api via swagger api docs
+#7. Testing api via swagger api docs
 
   copy the file contents of api-docs.yml on the root directory of this project.
   Then go to https://editor.swagger.io/ and paste the content in that editor.
