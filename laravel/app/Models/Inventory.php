@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 class Inventory extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+    
     public function martian()
     {
         return $this->belongsTo(Martian::class);

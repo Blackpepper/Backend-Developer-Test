@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inventory;
 use App\Models\Martian;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
-class MartianController extends Controller
+class InventoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,10 +15,10 @@ class MartianController extends Controller
      */
     public function index()
     {
-        $martians = Martian::with('inventories')->get();
+        $inventories = Inventory::all();
         return response()->json([
-            'message' => 'Martian list with inventories',
-            'data' => $martians
+            'message' => 'Inventory List',
+            'data' => $inventories
         ], 200);
     }
 
@@ -41,22 +41,30 @@ class MartianController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'martian_id' => 'required|numeric',
             'name' => 'required|max:255',
-            'age' => 'required|numeric',
-            'gender' => ['required',Rule::in(['M', 'F'])],
-            'can_trade' => 'boolean'
+            'points' => 'required|numeric',
+            'quantity' => 'required|numeric',
         ]);
 
-        $martian = Martian::create([
+        $martian = Martian::find($request->martian_id);
+
+        if(!$martian) {
+            return response()->json([
+                'message' => 'Invalid martian_id',
+            ], 404);
+        }
+        
+        $inventory = Inventory::create([
+            'martian_id' => $request->martian_id,
             'name' => $request->name,
-            'age' => $request->age,
-            'gender' => $request->gender,
-            'can_trade' => $request->can_trade ?? true
+            'points' => $request->points,
+            'quantity' => $request->quantity
         ]);
 
         return response()->json([
-            'message' => 'Martian created',
-            'data' => $martian
+            'message' => 'Inventory created',
+            'data' => $inventory
         ], 200);
     }
 
@@ -68,17 +76,17 @@ class MartianController extends Controller
      */
     public function show($id)
     {
-        $martian = Martian::with('inventories')->where('id', $id)->first();
+        $inventory = Inventory::with('martian')->where('id', $id)->first();
 
-        if(!$martian) {
+        if(!$inventory) {
             return response()->json([
-                'message' => 'Martian not found',
+                'message' => 'Inventory not found',
             ], 404);
         }
 
         return response()->json([
-            'message' => 'Martian found',
-            'data' => $martian
+            'message' => 'Inventory found',
+            'data' => $inventory
         ], 200);
     }
 
@@ -104,28 +112,45 @@ class MartianController extends Controller
     {
         $request->validate([
             'name' => 'required|max:255',
-            'age' => 'required|numeric',
-            'gender' => ['required', Rule::in(['M', 'F'])],
-            'can_trade' => 'boolean'
+            'points' => 'required|numeric',
+            'quantity' => 'required|numeric',
         ]);
+        
+        $inventory = Inventory::find($id);
 
-        $martian = Martian::find($id);
-
-        if(!$martian) {
+        if(!$inventory) {
             return response()->json([
-                'message' => 'Martian not found',
+                'message' => 'Inventory not found',
             ], 404);
         }
 
-        $martian->name = $request->name;
-        $martian->age = $request->age;
-        $martian->gender = $request->gender;
-        $martian->can_trade = $request->can_trade;
-        $martian->save();
+        $inventory->name = $request->name;
+        $inventory->points = $request->points;
+        $inventory->quantity = $request->quantity;
+        $inventory->save();
 
         return response()->json([
-            'message' => 'Martian updated',
-            'data' => $martian
+            'message' => 'Inventory updated',
+            'data' => $inventory
+        ], 200);
+    }
+
+    public function updateInventoryStocks(Request $request, $id)
+    {
+        $inventory = Inventory::find($id);
+
+        if(!$inventory) {
+            return response()->json([
+                'message' => 'Inventory not found',
+            ], 404);
+        }
+
+        $inventory->quantity = $request->stock_quantity;
+        $inventory->save();
+
+        return response()->json([
+            'message' => 'Inventory stock updated',
+            'data' => $inventory
         ], 200);
     }
 
@@ -137,14 +162,6 @@ class MartianController extends Controller
      */
     public function destroy($id)
     {
-        // $martian = Martian::find($id);
-
-        // if(!$martian) {
-        //     return response()->json([
-        //         'message' => 'Martian not found',
-        //     ], 404);
-        // }
-
-        // $martian->delete();
+        //
     }
 }

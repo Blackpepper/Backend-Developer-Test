@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\MartianController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,7 +24,17 @@ Route::get('test', function() {
     return 'test route';
 });
 
+// martian routes
 Route::get('martians', [MartianController::class, 'index']);
 Route::get('martians/{id}', [MartianController::class, 'show']);
 Route::put('martians/{id}', [MartianController::class, 'update']);
 Route::post('martians', [MartianController::class, 'store']);
+
+
+// inventory routes
+Route::get('inventories', [InventoryController::class, 'index']);
+Route::get('inventories/{id}', [InventoryController::class, 'show']);
+Route::put('inventories/{id}', [InventoryController::class, 'update']);
+Route::patch('inventories/{id}', [InventoryController::class, 'updateInventoryStocks']);
+Route::post('inventories', [InventoryController::class, 'store']);
+
