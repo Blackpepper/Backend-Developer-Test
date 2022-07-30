@@ -38,23 +38,16 @@ class InventoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $martianId)
+    public function store(Request $request)
     {
         $request->validate([
+            'martian_id' => 'required',
             'name' => 'required|max:255',
             'points' => 'required|numeric',
         ]);
-
-        $martian = Martian::find($martianId);
-
-        if(!$martian) {
-            return response()->json([
-                'message' => 'Invalid martian_id',
-            ], 404);
-        }
         
         $inventory = Inventory::create([
-            'martian_id' => $martianId,
+            'martian_id' => $request->martian_id,
             'name' => $request->name,
             'points' => $request->points
         ]);
@@ -107,14 +100,15 @@ class InventoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $martianId, $id)
+    public function update(Request $request, $id)
     {
         $request->validate([
+            'martian_id' => 'required',
             'name' => 'required|max:255',
             'points' => 'required|numeric',
         ]);
         
-        $inventory = Inventory::where('martian_id', $martianId)->where('id', $id)->first();
+        $inventory = Inventory::where('martian_id', $request->martian_id)->where('id', $id)->first();
 
         if(!$inventory) {
             return response()->json([

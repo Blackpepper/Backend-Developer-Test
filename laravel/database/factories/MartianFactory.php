@@ -18,8 +18,7 @@ class MartianFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'age' => rand(20, 60),
-            'gender' => Arr::random(['M', 'F']),
-            'can_trade' => Arr::random([true, false]),
+            'gender' => Arr::random(['M', 'F'])
         ];
     }
 }

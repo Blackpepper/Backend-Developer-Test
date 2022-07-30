@@ -37,10 +37,10 @@ Route::prefix('martians')->group(function() {
         // inventory routes
         Route::get('{martianId}/inventories', [InventoryController::class, 'index'])->withoutMiddleware([CanTrade::class]);
         Route::get('{martianId}/inventories/{inventoryId}', [InventoryController::class, 'show'])->withoutMiddleware([CanTrade::class]);
-        Route::put('{martianId}/inventories/{inventoryId}', [InventoryController::class, 'update']);
-        Route::post('{martianId}/inventories', [InventoryController::class, 'store']);
+        Route::post('inventories', [InventoryController::class, 'store']);
+        Route::put('inventories/{inventoryId}', [InventoryController::class, 'update']);
 
         // trading routes
-        Route::post('{martianId}/trade', [TradeController::class, 'store']);
+        Route::post('trade', [TradeController::class, 'store']);
     });
 });

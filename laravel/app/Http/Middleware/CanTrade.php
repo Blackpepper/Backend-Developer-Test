@@ -18,9 +18,18 @@ class CanTrade
      */
     public function handle(Request $request, Closure $next)
     {
-        $martian = Martian::find($request->martianId);
-        Log::info("can trade middleware");
-        Log::info($martian);
+        // dd([$request->all(),
+        $martianId = $request->martian_id;
+        $martian = Martian::find($martianId);
+
+        if(!$martian) {
+            return response()->json([
+                'message' => 'Martian ID not found',
+            ], 404);
+        }
+        
+        // Log::info("can trade middleware");
+        // Log::info($martian);
         if(!$martian->can_trade) {
             return response()->json([
                 'message' => 'Sorry this trader was flagged, trading and inventory manipulation was disabled',
