@@ -70,14 +70,14 @@ class InventoryTest extends TestCase
 
     public function test_flagged_martian_should_not_create_inventory()
     {
-        Martian::create([
+        $martian = Martian::create([
             "name" => "Juan Lansangan",
             "age" => 34,
             "gender" => "M",
             "can_trade" => false
         ]);
 
-        $martian = Martian::first();
+        // $martian = Martian::first();
 
         $response = $this->post("/api/martians/inventories",[
             "martian_id" => $martian->id,
@@ -90,14 +90,14 @@ class InventoryTest extends TestCase
 
     public function test_flagged_martian_should_not_update_inventory()
     {
-        Martian::create([
+        $martian = Martian::create([
             "name" => "Juan Lansangan",
             "age" => 34,
             "gender" => "M",
             "can_trade" => false
         ]);
 
-        $martian = Martian::first();
+        // $martian = Martian::first();
 
         $inventory = Inventory::create([
             "martian_id" => $martian->id,

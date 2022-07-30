@@ -36,31 +36,24 @@ class TradeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $martianId)
+    public function store(Request $request)
     {
         $request->validate([
-            'left_trader' => 'required',
-            'left_trader.items' => 'required|array',
+            'martian_id' => 'required',
+            'items' => 'required|array',
             'right_trader' => 'required',
             'right_trader.martian_id' => 'required',
             'right_trader.items' => 'required|array',
         ]);
 
-        $leftTrader = $request->left_trader;
+        
         $rightTrader = $request->right_trader;
-
-        if($martianId === $rightTrader['martian_id']) {
+        $leftTraderId = $request->martian_id;
+        
+        if($leftTraderId === $rightTrader['martian_id']) {
             return response()->json([
                 'message' => 'Martian should not trade on itself',
             ], 400);
-        }
-
-        // check if left trader exist
-        $leftTraderExist = Martian::find($martianId);
-        if(!$leftTraderExist) {
-            return response()->json([
-                'message' => 'Martian left trader not exist',
-            ], 404);
         }
 
         // check if right trader exist
@@ -72,15 +65,15 @@ class TradeController extends Controller
         }
 
         // check if items of left trader are valid
-        $leftTraderInventory = Inventory::where('martian_id', $martianId)
-        ->whereIn('id', $leftTrader['items'])
+        $leftTraderInventory = Inventory::where('martian_id', $leftTraderId)
+        ->whereIn('id', $request->items)
         ->get();
 
         $itemsFound = $leftTraderInventory->pluck('id')->toArray();
         
         // check trader items if exist on his inventory
         $leftTraderHasInvalidItem = false;
-        foreach ($leftTrader['items'] as $item) {
+        foreach ($request->items as $item) {
             if(!in_array($item, $itemsFound)) {
                 $leftTraderHasInvalidItem = true;
                 break;
@@ -150,7 +143,7 @@ class TradeController extends Controller
 
             // right trader items will change martian_id to left martian_id
             DB::table('inventories')->whereIn('id', $rightItemsIds)->update([
-                'martian_id' => $martianId
+                'martian_id' => $leftTraderId
             ]);
             // $queries = DB::getQueryLog();
             // Log::info($queries);
