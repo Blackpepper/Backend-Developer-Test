@@ -18,6 +18,7 @@ class CreateInventoryTable extends Migration
             $table->integer('martian_id')->unsigned();
             $table->integer('product_id')->unsigned();
             $table->integer('qty')->default(0)->unsigned();
+            $table->unique(['martian_id', 'product_id']);
             $table->timestamps();
         });
     }
