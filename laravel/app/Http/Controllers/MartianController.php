@@ -57,7 +57,7 @@ class MartianController extends Controller
         return response()->json([
             'message' => 'Martian created',
             'data' => $martian
-        ], 200);
+        ], 201);
     }
 
     /**

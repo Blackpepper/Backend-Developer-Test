@@ -62,7 +62,7 @@ class InventoryController extends Controller
         return response()->json([
             'message' => 'Inventory created',
             'data' => $inventory
-        ], 200);
+        ], 201);
     }
 
     /**
