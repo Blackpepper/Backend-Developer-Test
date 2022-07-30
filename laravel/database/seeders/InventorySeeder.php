@@ -19,27 +19,22 @@ class InventorySeeder extends Seeder
             [
                 'name' => 'Oxygen',
                 'points' => 6,
-                'quantity' => 10
             ],
             [
                 'name' => 'Water',
                 'points' => 4,
-                'quantity' => 10
             ],
             [
                 'name' => 'Food',
                 'points' => 3,
-                'quantity' => 10
             ],
             [
                 'name' => 'Medication',
                 'points' => 2,
-                'quantity' => 10
             ],
             [
                 'name' => 'Clothing',
                 'points' => 1,
-                'quantity' => 10
             ],
         ];
 

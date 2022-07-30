@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\MartianController;
+use App\Http\Controllers\TradeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -38,3 +39,5 @@ Route::put('inventories/{id}', [InventoryController::class, 'update']);
 Route::patch('inventories/{id}', [InventoryController::class, 'updateInventoryStocks']);
 Route::post('inventories', [InventoryController::class, 'store']);
 
+// trading routes
+Route::post('trade', [TradeController::class, 'store']);

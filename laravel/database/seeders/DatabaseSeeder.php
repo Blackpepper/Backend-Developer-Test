@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         DB::table('martians')->truncate();
         DB::table('inventories')->truncate();
 
-        Martian::factory(10)->create();
+        Martian::factory(2)->create();
 
         $this->call([
             InventorySeeder::class,
