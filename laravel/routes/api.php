@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\MartianController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TradeController;
 use App\Http\Middleware\CanTrade;
 use Illuminate\Http\Request;
@@ -44,3 +45,8 @@ Route::prefix('martians')->group(function() {
         Route::post('trade', [TradeController::class, 'store']);
     });
 });
+
+Route::get('products', [ProductController::class,'index']);
+Route::get('products/{id}', [ProductController::class,'show']);
+Route::put('products/{id}', [ProductController::class,'update']);
+Route::post('products', [ProductController::class,'store']);

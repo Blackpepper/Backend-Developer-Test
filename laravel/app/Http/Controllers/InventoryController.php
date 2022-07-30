@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Inventory;
 use App\Models\Martian;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class InventoryController extends Controller
 {
@@ -45,8 +46,16 @@ class InventoryController extends Controller
     {
         $request->validate([
             'martian_id' => 'required',
-            'product_id' => 'required',
-            'qty' => 'required|numeric'
+            'product_id' => [
+                'required',
+                Rule::unique('inventories')->where(function ($query) use ($request) {
+                    return $query->where('martian_id', $request->martian_id)
+                    ->where('product_id', $request->product_id);
+                })
+            ],
+            'qty' => 'required|numeric',
+        ],[
+            'product_id.unique' => 'martian_id and product_id should be unique. You cant have the same product on a single martian'
         ]);
         
         $inventory = Inventory::create([
