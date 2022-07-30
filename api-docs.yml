@@ -1,0 +1,217 @@
+openapi: 3.0.0
+info:
+  title: Mars Trading Platform
+  description: A Backend Developer technical exam from the client at ThriveNow PH
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000
+tags:
+  - name: Martians
+    description: Martian functionalities
+  # - name: Cardholder
+  #   description: Cardholder functionalities
+  # - name: Utility
+paths:
+  /api/martians:
+    description: Martian Resource
+    post:
+      tags:
+        - Martians
+      description: Create Martian
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                age:
+                  type: number
+                gender:
+                  type: string
+                can_trade:
+                  type: boolean
+            examples:
+              example-1:
+                value:
+                  name: John Doe,
+                  age: 34
+                  gender: M
+                  can_trade: true
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/martian"
+    get:
+      tags:
+        - Martians
+      description: Martian List
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/martian_inventories"
+
+  /api/martians/{id}:
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        description: Unique cardholder identifier.
+        required: true
+    description: Martian Resource
+    get:
+      tags:
+        - Martians
+      description: Get Martian Information
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/martian_inventories"
+        404:
+          description: Not Found Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    put:
+      tags:
+        - Martians
+      description: Update Martian Information
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                age:
+                  type: number
+                gender:
+                  type: string
+                can_trade:
+                  type: boolean
+            examples:
+              example-1:
+                value:
+                  name: John Doe,
+                  age: 34
+                  gender: M
+                  can_trade: false
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/martian"
+        404:
+          description: Not Found Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+components:
+  schemas:
+    inventory:
+      type: object
+      properties:
+        id:
+          type: number
+        martian_id:
+          type: number
+        name:
+          type: string
+        points:
+          type: number
+        created_at:
+          type: string
+        updated_at:
+          type: string
+    martian:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        gender:
+          type: number
+        can_trade:
+          type: number
+        created_at:
+          type: string
+        updated_at:
+          type: string
+    martian_inventories:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        gender:
+          type: number
+        can_trade:
+          type: number
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        inventories:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              martian_id:
+                type: number
+              name:
+                type: string
+              points:
+                type: number
+              created_at:
+                type: string
+              updated_at:
+                type: string
