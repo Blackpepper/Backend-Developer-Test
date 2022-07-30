@@ -70,11 +70,11 @@ class TradeController extends Controller
 
         // check if items of left trader are valid
         $leftItemsIds = collect($request->items)->pluck('item_id')->all();
-        $leftTraderInventory = Inventory::where('martian_id', $leftTraderId)
-        ->whereIn('id', $leftItemsIds)
+        $leftTraderInventory = Inventory::with('product')->where('martian_id', $leftTraderId)
+        ->whereIn('product_id', $leftItemsIds)
         ->get();
 
-        $itemsFound = $leftTraderInventory->pluck('id')->toArray();
+        $itemsFound = $leftTraderInventory->pluck('product_id')->toArray();
         
         // check trader items if exist on his inventory
         $leftTraderHasInvalidItem = false;
@@ -94,12 +94,18 @@ class TradeController extends Controller
 
         // check if items of right trader are valid
         $rightItemsIds = collect($rightTrader['items'])->pluck('item_id')->all();
-        $rightTraderInventory = Inventory::where('martian_id', $rightTrader['martian_id'])
-        ->whereIn('id', $rightItemsIds)
+        
+        $rightTraderInventory = Inventory::with('product')
+        ->where('martian_id', $rightTrader['martian_id'])
+        ->whereIn('product_id', $rightItemsIds)
         ->get();
 
-        $itemsFound = $rightTraderInventory->pluck('id')->toArray();
-        
+        // Log::info($rightItemsIds);
+        // Log::info($rightTraderInventory);
+        // dd('test');
+
+        $itemsFound = $rightTraderInventory->pluck('product_id')->toArray();
+        // dd($itemsFound);
         // check trader items if exist on his inventory
         $rightTraderHasInvalidItem = false;
         foreach ($rightTrader['items'] as $item) {
@@ -118,14 +124,14 @@ class TradeController extends Controller
 
         $leftTraderItemsTotalPoints = 0;
         foreach($request->items as $item) {
-            $tradeItem = $leftTraderInventory->firstWhere('id', $item['item_id']);
-            $leftTraderItemsTotalPoints += $tradeItem->points * $item['qty'];
+            $tradeItem = $leftTraderInventory->firstWhere('product_id', $item['item_id']);
+            $leftTraderItemsTotalPoints += $tradeItem->product->points * $item['qty'];
         }
 
         $rightTraderItemsTotalPoints = 0;
         foreach($rightTrader['items'] as $item) {
-            $tradeItem = $rightTraderInventory->firstWhere('id', $item['item_id']);
-            $rightTraderItemsTotalPoints += $tradeItem->points * $item['qty'];
+            $tradeItem = $rightTraderInventory->firstWhere('product_id', $item['item_id']);
+            $rightTraderItemsTotalPoints += $tradeItem->product->points * $item['qty'];
         }
 
         // check if trader points are equal
@@ -133,44 +139,56 @@ class TradeController extends Controller
             return response()->json([
                 'message' => "Martian trader points not equal",
                 'details' => [
-                    $leftTraderInventory->map(function ($left, $key) {
-                        return $left->only(['id','name','points']);
+                    $leftTraderInventory->map(function($item, $key){
+                        return $item->product->only(['id','name','points']);
                     }),
-                    $rightTraderInventory->map(function ($left, $key) {
-                        return $left->only(['id','name','points']);
-                    }),
+                    $rightTraderInventory->map(function($item, $key){
+                        return $item->product->only(['id','name','points']);
+                    })
                 ]
+            ], 400);
+        }
+
+        if($leftTraderItemsTotalPoints == 0 && $rightTraderItemsTotalPoints == 0) {
+            return response()->json([
+                'message' => "Martian trader points should not be 0",
             ], 400);
         }
         
         try {
             //proceed trading
-            // DB::connection()->enableQueryLog();
+            
             DB::beginTransaction();
-            
-            // $leftItemIds = $leftTraderInventory->pluck('id')->all();
-            // $rightItemsIds = $rightTraderInventory->pluck('id')->all();
-
-            // left trader items will change martian_id to right martian_id
-            
+            // swap trade qty items from owner
             foreach($request->items as $tradeItem) {
-                // less to qty owner
-                // DB::raw('amt_gross_pay - amt_total_deductions')
-                $productItem = $leftTraderInventory->firstWhere('id', $tradeItem['item_id']);
-                DB::table('inventories')->where('id', $tradeItem['item_id'])
-                ->update(['qty' => $productItem->qty - $tradeItem['qty']])
+                // less qty to owner
+                DB::table('inventories')->where('martian_id', $leftTraderId)
+                ->where('product_id', $tradeItem['item_id'])
+                ->decrement('qty', $tradeItem['qty']);
+
                 // add qty to trader
+                DB::table('inventories')->where('martian_id', $rightTrader['martian_id'])
+                ->where('product_id', $tradeItem['item_id'])
+                ->increment('qty', $tradeItem['qty']);
             }
 
-            // right trader items will change martian_id to left martian_id
-            DB::table('inventories')->whereIn('id', $rightItemsIds)->update([
-                'martian_id' => $leftTraderId
-            ]);
-            // $queries = DB::getQueryLog();
-            // Log::info($queries);
+            // swap trade qty items from right trader
+            foreach($rightTrader['items'] as $tradeItem) {
+                // less qty to owner
+                DB::table('inventories')->where('martian_id', $rightTrader['martian_id'])
+                ->where('product_id', $tradeItem['item_id'])
+                ->decrement('qty', $tradeItem['qty']);
+
+                // add qty to trader
+                DB::table('inventories')->where('martian_id', $leftTraderId)
+                ->where('product_id', $tradeItem['item_id'])
+                ->increment('qty', $tradeItem['qty']);
+            }
+            
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
+            Log::error($e);
             return response()->json([
                 'message' => 'Error in trading',
                 'details' => $e->getMessage()

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Inventory;
 use App\Models\Martian;
+use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Testing\Fluent\AssertableJson;
@@ -29,12 +30,14 @@ class TradeTest extends TestCase
         $response = $this->post('/api/martians/trade',[
             "martian_id" => $martian->id,
             "items" => [
-                1
+                ["item_id" => 1, "qty" => 1]
             ],
             "right_trader" => [
-                "martian_id" => 2,
+                "martian_id" => $martian->id,
                 "items" => [
-                    8,9,10
+                    ["item_id" => 3, "qty" => 1],
+                    ["item_id" => 4, "qty" => 1],
+                    ["item_id" => 5, "qty" => 1]
                 ]
             ]
         ]);
@@ -59,9 +62,9 @@ class TradeTest extends TestCase
             "right_trader" => [
                 "martian_id" => $martian->id,
                 "items" => [
-                    ["item_id" => 8, "qty" => 1],
-                    ["item_id" => 9, "qty" => 1],
-                    ["item_id" => 10, "qty" => 1]
+                    ["item_id" => 3, "qty" => 1],
+                    ["item_id" => 4, "qty" => 1],
+                    ["item_id" => 5, "qty" => 1]
                 ]
             ]
         ]);
@@ -85,9 +88,9 @@ class TradeTest extends TestCase
             "right_trader" => [
                 "martian_id" => 2,
                 "items" => [
-                    ["item_id" => 8, "qty" => 1],
-                    ["item_id" => 9, "qty" => 1],
-                    ["item_id" => 10, "qty" => 1]
+                    ["item_id" => 3, "qty" => 1],
+                    ["item_id" => 4, "qty" => 1],
+                    ["item_id" => 5, "qty" => 1]
                 ]
             ]
         ]);
@@ -115,9 +118,9 @@ class TradeTest extends TestCase
             "right_trader" => [
                 "martian_id" => 2,
                 "items" => [
-                    ["item_id" => 8, "qty" => 1],
-                    ["item_id" => 9, "qty" => 1],
-                    ["item_id" => 10, "qty" => 1]
+                    ["item_id" => 3, "qty" => 1],
+                    ["item_id" => 4, "qty" => 1],
+                    ["item_id" => 5, "qty" => 1]
                 ]
             ]
         ]);
@@ -132,31 +135,22 @@ class TradeTest extends TestCase
 
     public function test_martian_traders_should_have_valid_items()
     {
-        $martianLeft = Martian::create([
-            "name" => "Juan",
-            "age" => 34,
-            "gender" => "M",
-            "can_trade" => true
-        ]);
-
-        $martianRight = Martian::create([
-            "name" => "Pedro",
-            "age" => 34,
-            "gender" => "M",
-            "can_trade" => true
-        ]);
+        Artisan::call('db:seed');
+        $martians = Martian::all();
+        $martianLeft = $martians->first();
+        $martianRight = $martians->last();
 
         $response = $this->post('/api/martians/trade',[
             "martian_id" => $martianLeft->id,
             "items" => [
-                ["item_id" => 1, "qty" => 1]
+                ["item_id" => 0, "qty" => 1]
             ],
             "right_trader" => [
                 "martian_id" => $martianRight->id,
                 "items" => [
-                    ["item_id" => 8, "qty" => 1],
-                    ["item_id" => 9, "qty" => 1],
-                    ["item_id" => 10, "qty" => 1]
+                    ["item_id" => 3, "qty" => 1],
+                    ["item_id" => 4, "qty" => 1],
+                    ["item_id" => 5, "qty" => 1]
                 ]
             ]
         ]);
@@ -169,13 +163,8 @@ class TradeTest extends TestCase
             );
 
 
-        $inventory = Inventory::create([
-            "martian_id" => $martianLeft->id,
-            "name" => "Test Product #{$martianLeft->id}",
-            "points" => 6,
-            "qty" => 10
-        ]);
-
+        $product = Product::first();
+        $inventory = Inventory::where('martian_id', $martianLeft->id)->first();
         $response = $this->post('/api/martians/trade',[
             "martian_id" => $martianLeft->id,
             "items" => [
@@ -184,9 +173,9 @@ class TradeTest extends TestCase
             "right_trader" => [
                 "martian_id" => $martianRight->id,
                 "items" => [
-                    ["item_id" => 8, "qty" => 1],
-                    ["item_id" => 9, "qty" => 1],
-                    ["item_id" => 10, "qty" => 1]
+                    ["item_id" => 3, "qty" => 1],
+                    ["item_id" => 4, "qty" => 1],
+                    ["item_id" => 0, "qty" => 1]
                 ]
             ]
         ]);
@@ -215,8 +204,8 @@ class TradeTest extends TestCase
             "right_trader" => [
                 "martian_id" => $martianRight->id,
                 "items" => [
-                    ["item_id" => 8, "qty" => 1],
-                    ["item_id" => 9, "qty" => 1],
+                    ["item_id" => 3, "qty" => 1],
+                    ["item_id" => 4, "qty" => 1]
                 ]
             ]
         ]);
@@ -241,12 +230,14 @@ class TradeTest extends TestCase
         $response = $this->post('/api/martians/trade',[
             "martian_id" => $martianLeft->id,
             "items" => [
-                1
+                ["item_id" => 1, "qty" => 1]
             ],
             "right_trader" => [
                 "martian_id" => $martianRight->id,
                 "items" => [
-                    8,9,10
+                    ["item_id" => 3, "qty" => 1],
+                    ["item_id" => 4, "qty" => 1],
+                    ["item_id" => 5, "qty" => 1]
                 ]
             ]
         ]);
