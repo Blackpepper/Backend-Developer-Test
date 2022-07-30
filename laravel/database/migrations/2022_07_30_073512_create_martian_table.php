@@ -18,7 +18,7 @@ class CreateMartianTable extends Migration
             $table->string('name');
             $table->tinyInteger('age');
             $table->string('gender', 1);
-            $table->boolean('can_trade')->default(true);
+            $table->boolean('can_trade')->default(true)->nullable();
             $table->timestamps();
         });
     }

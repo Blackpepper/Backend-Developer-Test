@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MartianController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('test', function() {
     return 'test route';
 });
+
+Route::get('martians', [MartianController::class, 'index']);
+Route::get('martians/{id}', [MartianController::class, 'show']);
+Route::put('martians/{id}', [MartianController::class, 'update']);
+Route::post('martians', [MartianController::class, 'store']);
