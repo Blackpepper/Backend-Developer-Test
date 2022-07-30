@@ -8,6 +8,8 @@ servers:
 tags:
   - name: Martians
     description: Martian functionalities
+  - name: Products
+    description: Product functionalities
   - name: Inventories
     description: Martian Inventory and Supplies
   - name: Trade
@@ -37,7 +39,7 @@ paths:
             examples:
               example-1:
                 value:
-                  name: John Doe,
+                  name: John Doe
                   age: 34
                   gender: M
                   can_trade: true
@@ -130,7 +132,7 @@ paths:
             examples:
               example-1:
                 value:
-                  name: John Doe,
+                  name: John Doe
                   age: 34
                   gender: M
                   can_trade: false
@@ -156,11 +158,121 @@ paths:
                   message:
                     type: string
 
-  /api/martians/{id}/inventories:
+  /api/products:
+    description: Product Resource
+    post:
+      tags:
+        - Products
+      description: List Product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                points:
+                  type: number
+            examples:
+              example-1:
+                value:
+                  name: Mystery Box
+                  points: 10
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/product"
+    get:
+      tags:
+        - Products
+      description: Product List
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/product"
+  /api/products/{id}:
     parameters:
       - schema:
           type: string
         name: id
+        in: path
+        description: Unique product identifier.
+        required: true
+    description: Product Resource
+    get:
+      tags:
+        - Products
+      description: Get Product Details
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/product"
+    put:
+      tags:
+        - Products
+      description: Update Product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                points:
+                  type: number
+            examples:
+              example-1:
+                value:
+                  name: Mystery Box
+                  points: 10
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/product"
+
+  /api/martians/{martianId}/inventories:
+    parameters:
+      - schema:
+          type: string
+        name: martianId
         in: path
         description: Unique martian identifier.
         required: true
@@ -233,16 +345,16 @@ paths:
               properties:
                 martian_id:
                   type: number
-                name:
-                  type: string
-                points:
+                product_id:
+                  type: number
+                qty:
                   type: number
             examples:
               example-1:
                 value:
                   martian_id: 1
-                  name: Sample Product
-                  points: 6
+                  product_id: 2
+                  qty: 5
       responses:
         200:
           description: Success Response
@@ -287,16 +399,13 @@ paths:
               properties:
                 martian_id:
                   type: number
-                name:
-                  type: string
-                points:
+                qty:
                   type: number
             examples:
               example-1:
                 value:
                   martian_id: 1
-                  name: Sample Product Edited
-                  points: 21
+                  qty: 5
       responses:
         200:
           description: Success Response
@@ -337,8 +446,11 @@ paths:
                 items:
                   type: array
                   items:
-                    type: integer
-                    format: int64
+                    properties:
+                      item_id:
+                        type: number
+                      qty:
+                        type: number
                 right_trader:
                   type: object
                   properties:
@@ -347,16 +459,25 @@ paths:
                     items:
                       type: array
                       items:
-                        type: integer
-                        format: int64
+                        properties:
+                          item_id:
+                            type: number
+                          qty:
+                            type: number
             examples:
               example-1:
                 value:
                   martian_id: 1
-                  items: [1]
+                  items: [{ item_id: 1, qty: 1 }]
+
                   right_trader:
                     martian_id: 2
-                    items: [8, 9, 10]
+                    items:
+                      [
+                        { item_id: 3, qty: 1 },
+                        { item_id: 4, qty: 1 },
+                        { item_id: 5, qty: 1 },
+                      ]
       responses:
         200:
           description: Success Response
@@ -367,18 +488,12 @@ paths:
                 properties:
                   message:
                     type: string
-                  data:
-                    $ref: "#/components/schemas/inventory"
 
 components:
   schemas:
-    inventory:
+    product:
       type: object
       properties:
-        id:
-          type: number
-        martian_id:
-          type: number
         name:
           type: string
         points:
@@ -387,6 +502,28 @@ components:
           type: string
         updated_at:
           type: string
+    inventory:
+      type: object
+      properties:
+        id:
+          type: number
+        martian_id:
+          type: number
+        product_id:
+          type: number
+        qty:
+          type: number
+        product:
+          type: object
+          properties:
+            name:
+              type: string
+            points:
+              type: number
+            created_at:
+              type: string
+            updated_at:
+              type: string
     martian:
       type: object
       properties:
