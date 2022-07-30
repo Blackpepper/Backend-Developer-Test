@@ -214,6 +214,88 @@ paths:
                     items:
                       $ref: "#/components/schemas/inventory"
 
+  /api/martians/inventories:
+    description: Martian Resource
+    post:
+      tags:
+        - Inventories
+      description: Create Martian Inventory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                martian_id:
+                  type: number
+                name:
+                  type: string
+                points:
+                  type: number
+            examples:
+              example-1:
+                value:
+                  martian_id: 1
+                  name: Sample Product
+                  points: 6
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/inventory"
+  /api/martians/inventories/{id}:
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        description: Unique inventory identifier.
+        required: true
+    description: Inventory Resource
+    put:
+      tags:
+        - Inventories
+      description: Update Martian Inventory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                martian_id:
+                  type: number
+                name:
+                  type: string
+                points:
+                  type: number
+            examples:
+              example-1:
+                value:
+                  martian_id: 1
+                  name: Sample Product Edited
+                  points: 21
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/inventory"
+
 components:
   schemas:
     inventory:
