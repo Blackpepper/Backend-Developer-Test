@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Martian;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,6 +15,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        //refresh data
+        DB::table('martians')->truncate();
+        DB::table('inventories')->truncate();
+
+        Martian::factory(10)->create();
+
+        $this->call([
+            InventorySeeder::class,
+        ]);
     }
 }
