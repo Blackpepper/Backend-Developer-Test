@@ -10,6 +10,8 @@ tags:
     description: Martian functionalities
   - name: Inventories
     description: Martian Inventory and Supplies
+  - name: Trade
+    description: Martian Inventory and Supplies Trading
 paths:
   /api/martians:
     description: Martian Resource
@@ -51,6 +53,7 @@ paths:
                     type: string
                   data:
                     $ref: "#/components/schemas/martian"
+
     get:
       tags:
         - Martians
@@ -104,6 +107,7 @@ paths:
                 properties:
                   message:
                     type: string
+
     put:
       tags:
         - Martians
@@ -251,6 +255,16 @@ paths:
                     type: string
                   data:
                     $ref: "#/components/schemas/inventory"
+        400:
+          description: Error Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
   /api/martians/inventories/{id}:
     parameters:
       - schema:
@@ -283,6 +297,66 @@ paths:
                   martian_id: 1
                   name: Sample Product Edited
                   points: 21
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/inventory"
+        400:
+          description: Error Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /api/martians/trade:
+    description: Trade Resource
+    post:
+      tags:
+        - Trade
+      description: Martian Trading
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                martian_id:
+                  type: number
+                items:
+                  type: array
+                  items:
+                    type: integer
+                    format: int64
+                right_trader:
+                  type: object
+                  properties:
+                    martian_id:
+                      type: number
+                    items:
+                      type: array
+                      items:
+                        type: integer
+                        format: int64
+            examples:
+              example-1:
+                value:
+                  martian_id: 1
+                  items: [1]
+                  right_trader:
+                    martian_id: 2
+                    items: [8, 9, 10]
       responses:
         200:
           description: Success Response
