@@ -1,0 +1,1016 @@
+openapi: 3.0.3
+info:
+  title: 'Martians Trading API'
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost'
+paths:
+  /api/items:
+    get:
+      summary: 'List items'
+      description: ''
+      parameters:
+        -
+          in: query
+          name: page
+          description: 'The page of the list.'
+          example: 1
+          required: false
+          schema:
+            type: integer
+            description: 'The page of the list.'
+            example: 1
+        -
+          in: query
+          name: limit
+          description: 'The number of results per page.'
+          example: 5
+          required: false
+          schema:
+            type: integer
+            description: 'The number of results per page.'
+            example: 5
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: 200
+                  success: true
+                  data:
+                    -
+                      id: 1
+                      name: Oxygen
+                      points: 6
+                      created_at: '2022-10-15T09:25:01.000000Z'
+                      updated_at: '2022-10-15T09:25:01.000000Z'
+                    -
+                      id: 2
+                      name: Water
+                      points: 4
+                      created_at: '2022-10-15T09:25:01.000000Z'
+                      updated_at: '2022-10-15T09:25:01.000000Z'
+                    -
+                      id: 3
+                      name: Food
+                      points: 3
+                      created_at: '2022-10-15T09:25:01.000000Z'
+                      updated_at: '2022-10-15T09:25:01.000000Z'
+                    -
+                      id: 4
+                      name: Medication
+                      points: 2
+                      created_at: '2022-10-15T09:25:01.000000Z'
+                      updated_at: '2022-10-15T09:25:01.000000Z'
+                    -
+                      id: 5
+                      name: Clothing
+                      points: 1
+                      created_at: '2022-10-15T09:25:01.000000Z'
+                      updated_at: '2022-10-15T09:25:01.000000Z'
+                  pagination:
+                    count: 5
+                    total: 5
+                    perPage: 5
+                    currentPage: 1
+                    totalPages: 1
+                    links: {  }
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: Oxygen
+                        points: 6
+                        created_at: '2022-10-15T09:25:01.000000Z'
+                        updated_at: '2022-10-15T09:25:01.000000Z'
+                      -
+                        id: 2
+                        name: Water
+                        points: 4
+                        created_at: '2022-10-15T09:25:01.000000Z'
+                        updated_at: '2022-10-15T09:25:01.000000Z'
+                      -
+                        id: 3
+                        name: Food
+                        points: 3
+                        created_at: '2022-10-15T09:25:01.000000Z'
+                        updated_at: '2022-10-15T09:25:01.000000Z'
+                      -
+                        id: 4
+                        name: Medication
+                        points: 2
+                        created_at: '2022-10-15T09:25:01.000000Z'
+                        updated_at: '2022-10-15T09:25:01.000000Z'
+                      -
+                        id: 5
+                        name: Clothing
+                        points: 1
+                        created_at: '2022-10-15T09:25:01.000000Z'
+                        updated_at: '2022-10-15T09:25:01.000000Z'
+                    items:
+                      type: object
+                  pagination:
+                    type: object
+                    example:
+                      count: 5
+                      total: 5
+                      perPage: 5
+                      currentPage: 1
+                      totalPages: 1
+                      links: {  }
+      tags:
+        - Items
+      security: []
+    post:
+      summary: 'Create an item'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: 201
+                  success: true
+                  data:
+                    name: Knife
+                    points: 10
+                    updated_at: '2022-10-15T09:26:44.000000Z'
+                    created_at: '2022-10-15T09:26:44.000000Z'
+                    id: 6
+                properties:
+                  status:
+                    type: integer
+                    example: 201
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    example:
+                      name: Knife
+                      points: 10
+                      updated_at: '2022-10-15T09:26:44.000000Z'
+                      created_at: '2022-10-15T09:26:44.000000Z'
+                      id: 6
+      tags:
+        - Items
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the item.'
+                  example: Knife
+                points:
+                  type: integer
+                  description: 'The points of the item.'
+                  example: 10
+              required:
+                - name
+                - points
+      security: []
+  '/api/items/{item_id}':
+    put:
+      summary: 'Update an item'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: 200
+                  success: true
+                  data:
+                    id: 1
+                    name: Axe
+                    points: 15
+                    created_at: '2022-10-15T09:25:01.000000Z'
+                    updated_at: '2022-10-15T09:26:44.000000Z'
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    example:
+                      id: 1
+                      name: Axe
+                      points: 15
+                      created_at: '2022-10-15T09:25:01.000000Z'
+                      updated_at: '2022-10-15T09:26:44.000000Z'
+      tags:
+        - Items
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the item.'
+                  example: Axe
+                points:
+                  type: integer
+                  description: 'The points of the item.'
+                  example: 15
+      security: []
+    parameters:
+      -
+        in: path
+        name: item_id
+        description: 'The ID of the item.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/martians:
+    get:
+      summary: 'List martians'
+      description: ''
+      parameters:
+        -
+          in: query
+          name: page
+          description: 'The page of the list.'
+          example: 1
+          required: false
+          schema:
+            type: integer
+            description: 'The page of the list.'
+            example: 1
+        -
+          in: query
+          name: limit
+          description: 'The number of results per page.'
+          example: 5
+          required: false
+          schema:
+            type: integer
+            description: 'The number of results per page.'
+            example: 5
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: 200
+                  success: true
+                  data:
+                    -
+                      id: 1
+                      name: 'Juan Dela Cruz'
+                      age: 20
+                      gender: Male
+                      can_trade: true
+                      created_at: '2022-10-15T09:25:01.000000Z'
+                      updated_at: '2022-10-15T09:25:01.000000Z'
+                      items:
+                        -
+                          id: 1
+                          name: Oxygen
+                          points: 6
+                          created_at: '2022-10-15T09:25:01.000000Z'
+                          updated_at: '2022-10-15T09:25:01.000000Z'
+                          pivot:
+                            martian_id: 1
+                            item_id: 1
+                            quantity: 1
+                    -
+                      id: 2
+                      name: 'Pedro Dela Cruz'
+                      age: 20
+                      gender: Male
+                      can_trade: true
+                      created_at: '2022-10-15T09:25:01.000000Z'
+                      updated_at: '2022-10-15T09:25:01.000000Z'
+                      items:
+                        -
+                          id: 3
+                          name: Food
+                          points: 3
+                          created_at: '2022-10-15T09:25:01.000000Z'
+                          updated_at: '2022-10-15T09:25:01.000000Z'
+                          pivot:
+                            martian_id: 2
+                            item_id: 3
+                            quantity: 2
+                    -
+                      id: 3
+                      name: 'Prof. Mavis Pfannerstill Jr.'
+                      age: 57
+                      gender: Male
+                      can_trade: true
+                      created_at: '2022-10-15T09:25:01.000000Z'
+                      updated_at: '2022-10-15T09:25:01.000000Z'
+                      items:
+                        -
+                          id: 2
+                          name: Water
+                          points: 4
+                          created_at: '2022-10-15T09:25:01.000000Z'
+                          updated_at: '2022-10-15T09:25:01.000000Z'
+                          pivot:
+                            martian_id: 3
+                            item_id: 2
+                            quantity: 6
+                    -
+                      id: 4
+                      name: 'Angelo Pouros'
+                      age: 37
+                      gender: Non-binary
+                      can_trade: false
+                      created_at: '2022-10-15T09:25:01.000000Z'
+                      updated_at: '2022-10-15T09:25:01.000000Z'
+                      items:
+                        -
+                          id: 3
+                          name: Food
+                          points: 3
+                          created_at: '2022-10-15T09:25:01.000000Z'
+                          updated_at: '2022-10-15T09:25:01.000000Z'
+                          pivot:
+                            martian_id: 4
+                            item_id: 3
+                            quantity: 18
+                    -
+                      id: 5
+                      name: 'Christiana Kuhn'
+                      age: 30
+                      gender: Female
+                      can_trade: true
+                      created_at: '2022-10-15T09:25:01.000000Z'
+                      updated_at: '2022-10-15T09:25:01.000000Z'
+                      items:
+                        -
+                          id: 3
+                          name: Food
+                          points: 3
+                          created_at: '2022-10-15T09:25:01.000000Z'
+                          updated_at: '2022-10-15T09:25:01.000000Z'
+                          pivot:
+                            martian_id: 5
+                            item_id: 3
+                            quantity: 11
+                  pagination:
+                    count: 5
+                    total: 10
+                    perPage: 5
+                    currentPage: 1
+                    totalPages: 2
+                    links:
+                      next: 'http://localhost/api/martians?limit=5&page=2'
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: 'Juan Dela Cruz'
+                        age: 20
+                        gender: Male
+                        can_trade: true
+                        created_at: '2022-10-15T09:25:01.000000Z'
+                        updated_at: '2022-10-15T09:25:01.000000Z'
+                        items:
+                          -
+                            id: 1
+                            name: Oxygen
+                            points: 6
+                            created_at: '2022-10-15T09:25:01.000000Z'
+                            updated_at: '2022-10-15T09:25:01.000000Z'
+                            pivot:
+                              martian_id: 1
+                              item_id: 1
+                              quantity: 1
+                      -
+                        id: 2
+                        name: 'Pedro Dela Cruz'
+                        age: 20
+                        gender: Male
+                        can_trade: true
+                        created_at: '2022-10-15T09:25:01.000000Z'
+                        updated_at: '2022-10-15T09:25:01.000000Z'
+                        items:
+                          -
+                            id: 3
+                            name: Food
+                            points: 3
+                            created_at: '2022-10-15T09:25:01.000000Z'
+                            updated_at: '2022-10-15T09:25:01.000000Z'
+                            pivot:
+                              martian_id: 2
+                              item_id: 3
+                              quantity: 2
+                      -
+                        id: 3
+                        name: 'Prof. Mavis Pfannerstill Jr.'
+                        age: 57
+                        gender: Male
+                        can_trade: true
+                        created_at: '2022-10-15T09:25:01.000000Z'
+                        updated_at: '2022-10-15T09:25:01.000000Z'
+                        items:
+                          -
+                            id: 2
+                            name: Water
+                            points: 4
+                            created_at: '2022-10-15T09:25:01.000000Z'
+                            updated_at: '2022-10-15T09:25:01.000000Z'
+                            pivot:
+                              martian_id: 3
+                              item_id: 2
+                              quantity: 6
+                      -
+                        id: 4
+                        name: 'Angelo Pouros'
+                        age: 37
+                        gender: Non-binary
+                        can_trade: false
+                        created_at: '2022-10-15T09:25:01.000000Z'
+                        updated_at: '2022-10-15T09:25:01.000000Z'
+                        items:
+                          -
+                            id: 3
+                            name: Food
+                            points: 3
+                            created_at: '2022-10-15T09:25:01.000000Z'
+                            updated_at: '2022-10-15T09:25:01.000000Z'
+                            pivot:
+                              martian_id: 4
+                              item_id: 3
+                              quantity: 18
+                      -
+                        id: 5
+                        name: 'Christiana Kuhn'
+                        age: 30
+                        gender: Female
+                        can_trade: true
+                        created_at: '2022-10-15T09:25:01.000000Z'
+                        updated_at: '2022-10-15T09:25:01.000000Z'
+                        items:
+                          -
+                            id: 3
+                            name: Food
+                            points: 3
+                            created_at: '2022-10-15T09:25:01.000000Z'
+                            updated_at: '2022-10-15T09:25:01.000000Z'
+                            pivot:
+                              martian_id: 5
+                              item_id: 3
+                              quantity: 11
+                    items:
+                      type: object
+                  pagination:
+                    type: object
+                    example:
+                      count: 5
+                      total: 10
+                      perPage: 5
+                      currentPage: 1
+                      totalPages: 2
+                      links:
+                        next: 'http://localhost/api/martians?limit=5&page=2'
+      tags:
+        - Martians
+      security: []
+    post:
+      summary: 'Create a martian'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: 201
+                  success: true
+                  data:
+                    name: 'Juan Dela Cruz'
+                    gender: Male
+                    age: 23
+                    can_trade: true
+                    updated_at: '2022-10-15T09:26:44.000000Z'
+                    created_at: '2022-10-15T09:26:44.000000Z'
+                    id: 11
+                    items:
+                      -
+                        id: 1
+                        name: Oxygen
+                        points: 6
+                        created_at: '2022-10-15T09:25:01.000000Z'
+                        updated_at: '2022-10-15T09:25:01.000000Z'
+                        pivot:
+                          martian_id: 11
+                          item_id: 1
+                          quantity: 5
+                properties:
+                  status:
+                    type: integer
+                    example: 201
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    example:
+                      name: 'Juan Dela Cruz'
+                      gender: Male
+                      age: 23
+                      can_trade: true
+                      updated_at: '2022-10-15T09:26:44.000000Z'
+                      created_at: '2022-10-15T09:26:44.000000Z'
+                      id: 11
+                      items:
+                        -
+                          id: 1
+                          name: Oxygen
+                          points: 6
+                          created_at: '2022-10-15T09:25:01.000000Z'
+                          updated_at: '2022-10-15T09:25:01.000000Z'
+                          pivot:
+                            martian_id: 11
+                            item_id: 1
+                            quantity: 5
+      tags:
+        - Martians
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the martian.'
+                  example: 'Juan Dela Cruz'
+                age:
+                  type: integer
+                  description: 'The age of the martian.'
+                  example: 23
+                gender:
+                  type: string
+                  description: 'The gender of the martian.'
+                  example: Male
+                can_trade:
+                  type: boolean
+                  description: 'Flagging for martian.'
+                  example: true
+                items:
+                  type: array
+                  description: 'Items that the martian owns.'
+                  example:
+                    - []
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: 'Item ID.'
+                        example: 1
+                      quantity:
+                        type: integer
+                        description: 'Item quantity.'
+                        example: 5
+              required:
+                - name
+                - age
+                - gender
+                - can_trade
+      security: []
+  '/api/martians/{martian_id}':
+    put:
+      summary: 'Update a martian'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: 200
+                  success: true
+                  data:
+                    id: 1
+                    name: 'Juan Dela Cruz'
+                    age: 23
+                    gender: Male
+                    can_trade: true
+                    created_at: '2022-10-15T09:25:01.000000Z'
+                    updated_at: '2022-10-15T09:26:44.000000Z'
+                    items:
+                      -
+                        id: 1
+                        name: Oxygen
+                        points: 6
+                        created_at: '2022-10-15T09:25:01.000000Z'
+                        updated_at: '2022-10-15T09:25:01.000000Z'
+                        pivot:
+                          martian_id: 1
+                          item_id: 1
+                          quantity: 5
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    example:
+                      id: 1
+                      name: 'Juan Dela Cruz'
+                      age: 23
+                      gender: Male
+                      can_trade: true
+                      created_at: '2022-10-15T09:25:01.000000Z'
+                      updated_at: '2022-10-15T09:26:44.000000Z'
+                      items:
+                        -
+                          id: 1
+                          name: Oxygen
+                          points: 6
+                          created_at: '2022-10-15T09:25:01.000000Z'
+                          updated_at: '2022-10-15T09:25:01.000000Z'
+                          pivot:
+                            martian_id: 1
+                            item_id: 1
+                            quantity: 5
+      tags:
+        - Martians
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the martian.'
+                  example: 'Juan Dela Cruz'
+                age:
+                  type: integer
+                  description: 'The age of the martian.'
+                  example: 23
+                gender:
+                  type: string
+                  description: 'The gender of the martian.'
+                  example: Male
+                can_trade:
+                  type: boolean
+                  description: 'Flagging for martian.'
+                  example: true
+                items:
+                  type: array
+                  description: 'Items that the martian owns.'
+                  example:
+                    - []
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: 'Item ID.'
+                        example: 1
+                      quantity:
+                        type: integer
+                        description: 'Item quantity.'
+                        example: 5
+      security: []
+    parameters:
+      -
+        in: path
+        name: martian_id
+        description: 'The ID of the martian.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/trade:
+    post:
+      summary: 'Perform a trade between two martians.'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: 200
+                  success: true
+                  data:
+                    -
+                      id: 1
+                      name: 'Juan Dela Cruz'
+                      age: 20
+                      gender: Male
+                      can_trade: true
+                      created_at: '2022-10-15T09:25:01.000000Z'
+                      updated_at: '2022-10-15T09:25:01.000000Z'
+                      items:
+                        -
+                          id: 3
+                          name: Food
+                          points: 3
+                          created_at: '2022-10-15T09:25:01.000000Z'
+                          updated_at: '2022-10-15T09:25:01.000000Z'
+                          pivot:
+                            martian_id: 1
+                            item_id: 3
+                            quantity: 2
+                    -
+                      id: 2
+                      name: 'Pedro Dela Cruz'
+                      age: 20
+                      gender: Male
+                      can_trade: true
+                      created_at: '2022-10-15T09:25:01.000000Z'
+                      updated_at: '2022-10-15T09:25:01.000000Z'
+                      items:
+                        -
+                          id: 1
+                          name: Oxygen
+                          points: 6
+                          created_at: '2022-10-15T09:25:01.000000Z'
+                          updated_at: '2022-10-15T09:25:01.000000Z'
+                          pivot:
+                            martian_id: 2
+                            item_id: 1
+                            quantity: 1
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: 'Juan Dela Cruz'
+                        age: 20
+                        gender: Male
+                        can_trade: true
+                        created_at: '2022-10-15T09:25:01.000000Z'
+                        updated_at: '2022-10-15T09:25:01.000000Z'
+                        items:
+                          -
+                            id: 3
+                            name: Food
+                            points: 3
+                            created_at: '2022-10-15T09:25:01.000000Z'
+                            updated_at: '2022-10-15T09:25:01.000000Z'
+                            pivot:
+                              martian_id: 1
+                              item_id: 3
+                              quantity: 2
+                      -
+                        id: 2
+                        name: 'Pedro Dela Cruz'
+                        age: 20
+                        gender: Male
+                        can_trade: true
+                        created_at: '2022-10-15T09:25:01.000000Z'
+                        updated_at: '2022-10-15T09:25:01.000000Z'
+                        items:
+                          -
+                            id: 1
+                            name: Oxygen
+                            points: 6
+                            created_at: '2022-10-15T09:25:01.000000Z'
+                            updated_at: '2022-10-15T09:25:01.000000Z'
+                            pivot:
+                              martian_id: 2
+                              item_id: 1
+                              quantity: 1
+                    items:
+                      type: object
+      tags:
+        - Trading
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                trader_1:
+                  type: object
+                  description: 'The first trader.'
+                  example: []
+                  properties:
+                    id:
+                      type: integer
+                      description: 'The ID of the first trader.'
+                      example: 1
+                    items:
+                      type: array
+                      description: 'The trading items of the first trader.'
+                      example:
+                        - []
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            description: 'ID of a trading item.'
+                            example: 1
+                          quantity:
+                            type: integer
+                            description: 'Quantity of a trading item.'
+                            example: 1
+                        required:
+                          - id
+                          - quantity
+                trader_2:
+                  type: object
+                  description: 'The second trader.'
+                  example: []
+                  properties:
+                    id:
+                      type: integer
+                      description: 'The ID of the second trader.'
+                      example: 2
+                    items:
+                      type: array
+                      description: 'The trading items of the second trader.'
+                      example:
+                        - []
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            description: 'ID of a trading item.'
+                            example: 3
+                          quantity:
+                            type: integer
+                            description: 'Quantity of a trading item.'
+                            example: 2
+                        required:
+                          - id
+                          - quantity
+              required:
+                - trader_1
+                - trader_2
+      security: []
+tags:
+  -
+    name: Items
+    description: "\nAPIs for managing items"
+  -
+    name: Martians
+    description: "\nAPIs for managing martians"
+  -
+    name: Trading
+    description: "\nAPI for trading"
