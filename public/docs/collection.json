@@ -1,0 +1,461 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "http:\/\/localhost"
+        }
+    ],
+    "info": {
+        "name": "Martians Trading API",
+        "_postman_id": "e7762119-00d7-494f-b763-ecc4199d2a3d",
+        "description": "",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Items",
+            "description": "\nAPIs for managing items",
+            "item": [
+                {
+                    "name": "List items",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/items",
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "description": "The page of the list.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "5",
+                                    "description": "The number of results per page.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/items?page=1&limit=5"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "59"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"status\":200,\"success\":true,\"data\":[{\"id\":1,\"name\":\"Oxygen\",\"points\":6,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:25:01.000000Z\"},{\"id\":2,\"name\":\"Water\",\"points\":4,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:25:01.000000Z\"},{\"id\":3,\"name\":\"Food\",\"points\":3,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:25:01.000000Z\"},{\"id\":4,\"name\":\"Medication\",\"points\":2,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:25:01.000000Z\"},{\"id\":5,\"name\":\"Clothing\",\"points\":1,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:25:01.000000Z\"}],\"pagination\":{\"count\":5,\"total\":5,\"perPage\":5,\"currentPage\":1,\"totalPages\":1,\"links\":{}}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Create an item",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/items",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/items"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Knife\",\"points\":10}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "58"
+                                }
+                            ],
+                            "code": 201,
+                            "body": "{\"status\":201,\"success\":true,\"data\":{\"name\":\"Knife\",\"points\":10,\"updated_at\":\"2022-10-15T09:26:44.000000Z\",\"created_at\":\"2022-10-15T09:26:44.000000Z\",\"id\":6}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update an item",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/items\/:item_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/items\/:item_id",
+                            "variable": [
+                                {
+                                    "id": "item_id",
+                                    "key": "item_id",
+                                    "value": "1",
+                                    "description": "The ID of the item."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Axe\",\"points\":15}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "57"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"status\":200,\"success\":true,\"data\":{\"id\":1,\"name\":\"Axe\",\"points\":15,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:26:44.000000Z\"}}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Martians",
+            "description": "\nAPIs for managing martians",
+            "item": [
+                {
+                    "name": "List martians",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/martians",
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "description": "The page of the list.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "5",
+                                    "description": "The number of results per page.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/martians?page=1&limit=5"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "56"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"status\":200,\"success\":true,\"data\":[{\"id\":1,\"name\":\"Juan Dela Cruz\",\"age\":20,\"gender\":\"Male\",\"can_trade\":true,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:25:01.000000Z\",\"items\":[{\"id\":1,\"name\":\"Oxygen\",\"points\":6,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:25:01.000000Z\",\"pivot\":{\"martian_id\":1,\"item_id\":1,\"quantity\":1}}]},{\"id\":2,\"name\":\"Pedro Dela Cruz\",\"age\":20,\"gender\":\"Male\",\"can_trade\":true,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:25:01.000000Z\",\"items\":[{\"id\":3,\"name\":\"Food\",\"points\":3,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:25:01.000000Z\",\"pivot\":{\"martian_id\":2,\"item_id\":3,\"quantity\":2}}]},{\"id\":3,\"name\":\"Prof. Mavis Pfannerstill Jr.\",\"age\":57,\"gender\":\"Male\",\"can_trade\":true,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:25:01.000000Z\",\"items\":[{\"id\":2,\"name\":\"Water\",\"points\":4,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:25:01.000000Z\",\"pivot\":{\"martian_id\":3,\"item_id\":2,\"quantity\":6}}]},{\"id\":4,\"name\":\"Angelo Pouros\",\"age\":37,\"gender\":\"Non-binary\",\"can_trade\":false,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:25:01.000000Z\",\"items\":[{\"id\":3,\"name\":\"Food\",\"points\":3,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:25:01.000000Z\",\"pivot\":{\"martian_id\":4,\"item_id\":3,\"quantity\":18}}]},{\"id\":5,\"name\":\"Christiana Kuhn\",\"age\":30,\"gender\":\"Female\",\"can_trade\":true,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:25:01.000000Z\",\"items\":[{\"id\":3,\"name\":\"Food\",\"points\":3,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:25:01.000000Z\",\"pivot\":{\"martian_id\":5,\"item_id\":3,\"quantity\":11}}]}],\"pagination\":{\"count\":5,\"total\":10,\"perPage\":5,\"currentPage\":1,\"totalPages\":2,\"links\":{\"next\":\"http:\\\/\\\/localhost\\\/api\\\/martians?limit=5&page=2\"}}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Create a martian",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/martians",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/martians"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Juan Dela Cruz\",\"age\":23,\"gender\":\"Male\",\"can_trade\":true,\"items\":[{\"id\":1,\"quantity\":5}]}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "55"
+                                }
+                            ],
+                            "code": 201,
+                            "body": "{\"status\":201,\"success\":true,\"data\":{\"name\":\"Juan Dela Cruz\",\"gender\":\"Male\",\"age\":23,\"can_trade\":true,\"updated_at\":\"2022-10-15T09:26:44.000000Z\",\"created_at\":\"2022-10-15T09:26:44.000000Z\",\"id\":11,\"items\":[{\"id\":1,\"name\":\"Oxygen\",\"points\":6,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:25:01.000000Z\",\"pivot\":{\"martian_id\":11,\"item_id\":1,\"quantity\":5}}]}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a martian",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/martians\/:martian_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/martians\/:martian_id",
+                            "variable": [
+                                {
+                                    "id": "martian_id",
+                                    "key": "martian_id",
+                                    "value": "1",
+                                    "description": "The ID of the martian."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Juan Dela Cruz\",\"age\":23,\"gender\":\"Male\",\"can_trade\":true,\"items\":[{\"id\":1,\"quantity\":5}]}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "54"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"status\":200,\"success\":true,\"data\":{\"id\":1,\"name\":\"Juan Dela Cruz\",\"age\":23,\"gender\":\"Male\",\"can_trade\":true,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:26:44.000000Z\",\"items\":[{\"id\":1,\"name\":\"Oxygen\",\"points\":6,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:25:01.000000Z\",\"pivot\":{\"martian_id\":1,\"item_id\":1,\"quantity\":5}}]}}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Trading",
+            "description": "\nAPI for trading",
+            "item": [
+                {
+                    "name": "Perform a trade between two martians.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/trade",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/trade"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"trader_1\":{\"id\":1,\"items\":[{\"id\":1,\"quantity\":1}]},\"trader_2\":{\"id\":2,\"items\":[{\"id\":3,\"quantity\":2}]}}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "53"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"status\":200,\"success\":true,\"data\":[{\"id\":1,\"name\":\"Juan Dela Cruz\",\"age\":20,\"gender\":\"Male\",\"can_trade\":true,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:25:01.000000Z\",\"items\":[{\"id\":3,\"name\":\"Food\",\"points\":3,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:25:01.000000Z\",\"pivot\":{\"martian_id\":1,\"item_id\":3,\"quantity\":2}}]},{\"id\":2,\"name\":\"Pedro Dela Cruz\",\"age\":20,\"gender\":\"Male\",\"can_trade\":true,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:25:01.000000Z\",\"items\":[{\"id\":1,\"name\":\"Oxygen\",\"points\":6,\"created_at\":\"2022-10-15T09:25:01.000000Z\",\"updated_at\":\"2022-10-15T09:25:01.000000Z\",\"pivot\":{\"martian_id\":2,\"item_id\":1,\"quantity\":1}}]}]}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "noauth"
+    }
+}

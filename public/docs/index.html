@@ -1,0 +1,1583 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Martians Trading API</title>
+
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../docs/css/theme-default.style.css" media="screen">
+    <link rel="stylesheet" href="../docs/css/theme-default.print.css" media="print">
+
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
+
+    <link rel="stylesheet"
+          href="https://unpkg.com/@highlightjs/cdn-assets@10.7.2/styles/obsidian.min.css">
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@10.7.2/highlight.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jets/0.14.1/jets.min.js"></script>
+
+    <style id="language-style">
+        /* starts out as display none and is replaced with js later  */
+                    body .content .javascript-example code { display: none; }
+                    body .content .bash-example code { display: none; }
+            </style>
+
+
+    <script src="../docs/js/theme-default-4.0.0.js"></script>
+
+</head>
+
+<body data-languages="[&quot;javascript&quot;,&quot;bash&quot;]">
+
+<a href="#" id="nav-button">
+    <span>
+        MENU
+        <img src="../docs/images/navbar.png" alt="navbar-image" />
+    </span>
+</a>
+<div class="tocify-wrapper">
+    
+            <div class="lang-selector">
+                                            <button type="button" class="lang-button" data-language-name="javascript">javascript</button>
+                                            <button type="button" class="lang-button" data-language-name="bash">bash</button>
+                    </div>
+    
+    <div class="search">
+        <input type="text" class="search" id="input-search" placeholder="Search">
+    </div>
+
+    <div id="toc">
+                    <ul id="tocify-header-introduction" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="introduction">
+                    <a href="#introduction">Introduction</a>
+                </li>
+                            </ul>
+                    <ul id="tocify-header-authenticating-requests" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="authenticating-requests">
+                    <a href="#authenticating-requests">Authenticating requests</a>
+                </li>
+                            </ul>
+                    <ul id="tocify-header-items" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="items">
+                    <a href="#items">Items</a>
+                </li>
+                                    <ul id="tocify-subheader-items" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="items-GETapi-items">
+                                <a href="#items-GETapi-items">List items</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="items-POSTapi-items">
+                                <a href="#items-POSTapi-items">Create an item</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="items-PUTapi-items--item_id-">
+                                <a href="#items-PUTapi-items--item_id-">Update an item</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
+                    <ul id="tocify-header-martians" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="martians">
+                    <a href="#martians">Martians</a>
+                </li>
+                                    <ul id="tocify-subheader-martians" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="martians-GETapi-martians">
+                                <a href="#martians-GETapi-martians">List martians</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="martians-POSTapi-martians">
+                                <a href="#martians-POSTapi-martians">Create a martian</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="martians-PUTapi-martians--martian_id-">
+                                <a href="#martians-PUTapi-martians--martian_id-">Update a martian</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
+                    <ul id="tocify-header-trading" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="trading">
+                    <a href="#trading">Trading</a>
+                </li>
+                                    <ul id="tocify-subheader-trading" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="trading-POSTapi-trade">
+                                <a href="#trading-POSTapi-trade">Perform a trade between two martians.</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
+            </div>
+
+            <ul class="toc-footer" id="toc-footer">
+                            <li><a href="../docs/collection.json">View Postman collection</a></li>
+                            <li><a href="../docs/openapi.yaml">View OpenAPI spec</a></li>
+                            <li><a href="http://github.com/knuckleswtf/scribe">Documentation powered by Scribe ✍</a></li>
+                    </ul>
+        <ul class="toc-footer" id="last-updated">
+        <li>Last updated: October 15 2022</li>
+    </ul>
+</div>
+
+<div class="page-wrapper">
+    <div class="dark-box"></div>
+    <div class="content">
+        <h1 id="introduction">Introduction</h1>
+<p>This documentation aims to provide all the information you need to work with our API.</p>
+<aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
+You can switch the language used with the tabs at the top right (or from the nav menu at the top left on mobile).</aside>
+<blockquote>
+<p>Base URL</p>
+</blockquote>
+<pre><code class="language-yaml">http://localhost</code></pre>
+
+        <h1 id="authenticating-requests">Authenticating requests</h1>
+<p>This API is not authenticated.</p>
+
+        <h1 id="items">Items</h1>
+
+    <p>APIs for managing items</p>
+
+                                <h2 id="items-GETapi-items">List items</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-items">
+<blockquote>Example request:</blockquote>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/items"
+);
+
+const params = {
+    "page": "1",
+    "limit": "5",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost/api/items?page=1&amp;limit=5" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-items">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary>
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+x-ratelimit-limit: 60
+x-ratelimit-remaining: 59
+ </code></pre>
+        </details>         <pre>
+
+<code class="language-json">{
+    &quot;status&quot;: 200,
+    &quot;success&quot;: true,
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;Oxygen&quot;,
+            &quot;points&quot;: 6,
+            &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;
+        },
+        {
+            &quot;id&quot;: 2,
+            &quot;name&quot;: &quot;Water&quot;,
+            &quot;points&quot;: 4,
+            &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;
+        },
+        {
+            &quot;id&quot;: 3,
+            &quot;name&quot;: &quot;Food&quot;,
+            &quot;points&quot;: 3,
+            &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;
+        },
+        {
+            &quot;id&quot;: 4,
+            &quot;name&quot;: &quot;Medication&quot;,
+            &quot;points&quot;: 2,
+            &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;
+        },
+        {
+            &quot;id&quot;: 5,
+            &quot;name&quot;: &quot;Clothing&quot;,
+            &quot;points&quot;: 1,
+            &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;
+        }
+    ],
+    &quot;pagination&quot;: {
+        &quot;count&quot;: 5,
+        &quot;total&quot;: 5,
+        &quot;perPage&quot;: 5,
+        &quot;currentPage&quot;: 1,
+        &quot;totalPages&quot;: 1,
+        &quot;links&quot;: {}
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-items" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-items"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-items"></code></pre>
+</span>
+<span id="execution-error-GETapi-items" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-items"></code></pre>
+</span>
+<form id="form-GETapi-items" data-method="GET"
+      data-path="api/items"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-items', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/items</code></b>
+        </p>
+                        <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                    <p>
+                <b><code>page</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number"
+               name="page"
+               data-endpoint="GETapi-items"
+               value="1"
+               data-component="query" hidden>
+    <br>
+<p>The page of the list.</p>
+            </p>
+                    <p>
+                <b><code>limit</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number"
+               name="limit"
+               data-endpoint="GETapi-items"
+               value="5"
+               data-component="query" hidden>
+    <br>
+<p>The number of results per page.</p>
+            </p>
+                </form>
+
+                    <h2 id="items-POSTapi-items">Create an item</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-items">
+<blockquote>Example request:</blockquote>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/items"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "name": "Knife",
+    "points": 10
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/api/items" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"name\": \"Knife\",
+    \"points\": 10
+}"
+</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-items">
+            <blockquote>
+            <p>Example response (201):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary>
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+x-ratelimit-limit: 60
+x-ratelimit-remaining: 58
+ </code></pre>
+        </details>         <pre>
+
+<code class="language-json">{
+    &quot;status&quot;: 201,
+    &quot;success&quot;: true,
+    &quot;data&quot;: {
+        &quot;name&quot;: &quot;Knife&quot;,
+        &quot;points&quot;: 10,
+        &quot;updated_at&quot;: &quot;2022-10-15T09:26:44.000000Z&quot;,
+        &quot;created_at&quot;: &quot;2022-10-15T09:26:44.000000Z&quot;,
+        &quot;id&quot;: 6
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-items" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-items"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-items"></code></pre>
+</span>
+<span id="execution-error-POSTapi-items" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-items"></code></pre>
+</span>
+<form id="form-POSTapi-items" data-method="POST"
+      data-path="api/items"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-items', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/items</code></b>
+        </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text"
+               name="name"
+               data-endpoint="POSTapi-items"
+               value="Knife"
+               data-component="body" hidden>
+    <br>
+<p>The name of the item.</p>
+        </p>
+                <p>
+            <b><code>points</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number"
+               name="points"
+               data-endpoint="POSTapi-items"
+               value="10"
+               data-component="body" hidden>
+    <br>
+<p>The points of the item.</p>
+        </p>
+        </form>
+
+                    <h2 id="items-PUTapi-items--item_id-">Update an item</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-PUTapi-items--item_id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/items/1"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "name": "Axe",
+    "points": 15
+};
+
+fetch(url, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PUT \
+    "http://localhost/api/items/1" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"name\": \"Axe\",
+    \"points\": 15
+}"
+</code></pre></div>
+
+</span>
+
+<span id="example-responses-PUTapi-items--item_id-">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary>
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+x-ratelimit-limit: 60
+x-ratelimit-remaining: 57
+ </code></pre>
+        </details>         <pre>
+
+<code class="language-json">{
+    &quot;status&quot;: 200,
+    &quot;success&quot;: true,
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;name&quot;: &quot;Axe&quot;,
+        &quot;points&quot;: 15,
+        &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2022-10-15T09:26:44.000000Z&quot;
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-PUTapi-items--item_id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PUTapi-items--item_id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PUTapi-items--item_id-"></code></pre>
+</span>
+<span id="execution-error-PUTapi-items--item_id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PUTapi-items--item_id-"></code></pre>
+</span>
+<form id="form-PUTapi-items--item_id-" data-method="PUT"
+      data-path="api/items/{item_id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PUTapi-items--item_id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+            </h3>
+            <p>
+            <small class="badge badge-darkblue">PUT</small>
+            <b><code>api/items/{item_id}</code></b>
+        </p>
+                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>item_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number"
+               name="item_id"
+               data-endpoint="PUTapi-items--item_id-"
+               value="1"
+               data-component="url" hidden>
+    <br>
+<p>The ID of the item.</p>
+            </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text"
+               name="name"
+               data-endpoint="PUTapi-items--item_id-"
+               value="Axe"
+               data-component="body" hidden>
+    <br>
+<p>The name of the item.</p>
+        </p>
+                <p>
+            <b><code>points</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number"
+               name="points"
+               data-endpoint="PUTapi-items--item_id-"
+               value="15"
+               data-component="body" hidden>
+    <br>
+<p>The points of the item.</p>
+        </p>
+        </form>
+
+                <h1 id="martians">Martians</h1>
+
+    <p>APIs for managing martians</p>
+
+                                <h2 id="martians-GETapi-martians">List martians</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-martians">
+<blockquote>Example request:</blockquote>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/martians"
+);
+
+const params = {
+    "page": "1",
+    "limit": "5",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost/api/martians?page=1&amp;limit=5" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-martians">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary>
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+x-ratelimit-limit: 60
+x-ratelimit-remaining: 56
+ </code></pre>
+        </details>         <pre>
+
+<code class="language-json">{
+    &quot;status&quot;: 200,
+    &quot;success&quot;: true,
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;Juan Dela Cruz&quot;,
+            &quot;age&quot;: 20,
+            &quot;gender&quot;: &quot;Male&quot;,
+            &quot;can_trade&quot;: true,
+            &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+            &quot;items&quot;: [
+                {
+                    &quot;id&quot;: 1,
+                    &quot;name&quot;: &quot;Oxygen&quot;,
+                    &quot;points&quot;: 6,
+                    &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+                    &quot;pivot&quot;: {
+                        &quot;martian_id&quot;: 1,
+                        &quot;item_id&quot;: 1,
+                        &quot;quantity&quot;: 1
+                    }
+                }
+            ]
+        },
+        {
+            &quot;id&quot;: 2,
+            &quot;name&quot;: &quot;Pedro Dela Cruz&quot;,
+            &quot;age&quot;: 20,
+            &quot;gender&quot;: &quot;Male&quot;,
+            &quot;can_trade&quot;: true,
+            &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+            &quot;items&quot;: [
+                {
+                    &quot;id&quot;: 3,
+                    &quot;name&quot;: &quot;Food&quot;,
+                    &quot;points&quot;: 3,
+                    &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+                    &quot;pivot&quot;: {
+                        &quot;martian_id&quot;: 2,
+                        &quot;item_id&quot;: 3,
+                        &quot;quantity&quot;: 2
+                    }
+                }
+            ]
+        },
+        {
+            &quot;id&quot;: 3,
+            &quot;name&quot;: &quot;Prof. Mavis Pfannerstill Jr.&quot;,
+            &quot;age&quot;: 57,
+            &quot;gender&quot;: &quot;Male&quot;,
+            &quot;can_trade&quot;: true,
+            &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+            &quot;items&quot;: [
+                {
+                    &quot;id&quot;: 2,
+                    &quot;name&quot;: &quot;Water&quot;,
+                    &quot;points&quot;: 4,
+                    &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+                    &quot;pivot&quot;: {
+                        &quot;martian_id&quot;: 3,
+                        &quot;item_id&quot;: 2,
+                        &quot;quantity&quot;: 6
+                    }
+                }
+            ]
+        },
+        {
+            &quot;id&quot;: 4,
+            &quot;name&quot;: &quot;Angelo Pouros&quot;,
+            &quot;age&quot;: 37,
+            &quot;gender&quot;: &quot;Non-binary&quot;,
+            &quot;can_trade&quot;: false,
+            &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+            &quot;items&quot;: [
+                {
+                    &quot;id&quot;: 3,
+                    &quot;name&quot;: &quot;Food&quot;,
+                    &quot;points&quot;: 3,
+                    &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+                    &quot;pivot&quot;: {
+                        &quot;martian_id&quot;: 4,
+                        &quot;item_id&quot;: 3,
+                        &quot;quantity&quot;: 18
+                    }
+                }
+            ]
+        },
+        {
+            &quot;id&quot;: 5,
+            &quot;name&quot;: &quot;Christiana Kuhn&quot;,
+            &quot;age&quot;: 30,
+            &quot;gender&quot;: &quot;Female&quot;,
+            &quot;can_trade&quot;: true,
+            &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+            &quot;items&quot;: [
+                {
+                    &quot;id&quot;: 3,
+                    &quot;name&quot;: &quot;Food&quot;,
+                    &quot;points&quot;: 3,
+                    &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+                    &quot;pivot&quot;: {
+                        &quot;martian_id&quot;: 5,
+                        &quot;item_id&quot;: 3,
+                        &quot;quantity&quot;: 11
+                    }
+                }
+            ]
+        }
+    ],
+    &quot;pagination&quot;: {
+        &quot;count&quot;: 5,
+        &quot;total&quot;: 10,
+        &quot;perPage&quot;: 5,
+        &quot;currentPage&quot;: 1,
+        &quot;totalPages&quot;: 2,
+        &quot;links&quot;: {
+            &quot;next&quot;: &quot;http://localhost/api/martians?limit=5&amp;page=2&quot;
+        }
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-martians" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-martians"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-martians"></code></pre>
+</span>
+<span id="execution-error-GETapi-martians" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-martians"></code></pre>
+</span>
+<form id="form-GETapi-martians" data-method="GET"
+      data-path="api/martians"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-martians', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/martians</code></b>
+        </p>
+                        <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                    <p>
+                <b><code>page</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number"
+               name="page"
+               data-endpoint="GETapi-martians"
+               value="1"
+               data-component="query" hidden>
+    <br>
+<p>The page of the list.</p>
+            </p>
+                    <p>
+                <b><code>limit</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number"
+               name="limit"
+               data-endpoint="GETapi-martians"
+               value="5"
+               data-component="query" hidden>
+    <br>
+<p>The number of results per page.</p>
+            </p>
+                </form>
+
+                    <h2 id="martians-POSTapi-martians">Create a martian</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-martians">
+<blockquote>Example request:</blockquote>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/martians"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "name": "Juan Dela Cruz",
+    "age": 23,
+    "gender": "Male",
+    "can_trade": true,
+    "items": [
+        {
+            "id": 1,
+            "quantity": 5
+        }
+    ]
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/api/martians" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"name\": \"Juan Dela Cruz\",
+    \"age\": 23,
+    \"gender\": \"Male\",
+    \"can_trade\": true,
+    \"items\": [
+        {
+            \"id\": 1,
+            \"quantity\": 5
+        }
+    ]
+}"
+</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-martians">
+            <blockquote>
+            <p>Example response (201):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary>
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+x-ratelimit-limit: 60
+x-ratelimit-remaining: 55
+ </code></pre>
+        </details>         <pre>
+
+<code class="language-json">{
+    &quot;status&quot;: 201,
+    &quot;success&quot;: true,
+    &quot;data&quot;: {
+        &quot;name&quot;: &quot;Juan Dela Cruz&quot;,
+        &quot;gender&quot;: &quot;Male&quot;,
+        &quot;age&quot;: 23,
+        &quot;can_trade&quot;: true,
+        &quot;updated_at&quot;: &quot;2022-10-15T09:26:44.000000Z&quot;,
+        &quot;created_at&quot;: &quot;2022-10-15T09:26:44.000000Z&quot;,
+        &quot;id&quot;: 11,
+        &quot;items&quot;: [
+            {
+                &quot;id&quot;: 1,
+                &quot;name&quot;: &quot;Oxygen&quot;,
+                &quot;points&quot;: 6,
+                &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+                &quot;pivot&quot;: {
+                    &quot;martian_id&quot;: 11,
+                    &quot;item_id&quot;: 1,
+                    &quot;quantity&quot;: 5
+                }
+            }
+        ]
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-martians" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-martians"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-martians"></code></pre>
+</span>
+<span id="execution-error-POSTapi-martians" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-martians"></code></pre>
+</span>
+<form id="form-POSTapi-martians" data-method="POST"
+      data-path="api/martians"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-martians', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/martians</code></b>
+        </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text"
+               name="name"
+               data-endpoint="POSTapi-martians"
+               value="Juan Dela Cruz"
+               data-component="body" hidden>
+    <br>
+<p>The name of the martian.</p>
+        </p>
+                <p>
+            <b><code>age</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number"
+               name="age"
+               data-endpoint="POSTapi-martians"
+               value="23"
+               data-component="body" hidden>
+    <br>
+<p>The age of the martian.</p>
+        </p>
+                <p>
+            <b><code>gender</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text"
+               name="gender"
+               data-endpoint="POSTapi-martians"
+               value="Male"
+               data-component="body" hidden>
+    <br>
+<p>The gender of the martian.</p>
+        </p>
+                <p>
+            <b><code>can_trade</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+ &nbsp;
+                <label data-endpoint="POSTapi-martians" hidden>
+            <input type="radio" name="can_trade"
+                   value="true"
+                   data-endpoint="POSTapi-martians"
+                   data-component="body"
+            >
+            <code>true</code>
+        </label>
+        <label data-endpoint="POSTapi-martians" hidden>
+            <input type="radio" name="can_trade"
+                   value="false"
+                   data-endpoint="POSTapi-martians"
+                   data-component="body"
+            >
+            <code>false</code>
+        </label>
+    <br>
+<p>Flagging for martian.</p>
+        </p>
+                <p>
+        <details>
+            <summary style="padding-bottom: 10px;">
+                <b><code>items</code></b>&nbsp;&nbsp;
+<small>object[]</small>&nbsp;
+<i>optional</i> &nbsp;
+<br>
+<p>Items that the martian owns.</p>
+            </summary>
+                                                <p>
+                        <b><code>items[].id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number"
+               name="items.0.id"
+               data-endpoint="POSTapi-martians"
+               value="1"
+               data-component="body" hidden>
+    <br>
+<p>Item ID.</p>
+                    </p>
+                                                                <p>
+                        <b><code>items[].quantity</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number"
+               name="items.0.quantity"
+               data-endpoint="POSTapi-martians"
+               value="5"
+               data-component="body" hidden>
+    <br>
+<p>Item quantity.</p>
+                    </p>
+                                    </details>
+        </p>
+        </form>
+
+                    <h2 id="martians-PUTapi-martians--martian_id-">Update a martian</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-PUTapi-martians--martian_id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/martians/1"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "name": "Juan Dela Cruz",
+    "age": 23,
+    "gender": "Male",
+    "can_trade": true,
+    "items": [
+        {
+            "id": 1,
+            "quantity": 5
+        }
+    ]
+};
+
+fetch(url, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PUT \
+    "http://localhost/api/martians/1" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"name\": \"Juan Dela Cruz\",
+    \"age\": 23,
+    \"gender\": \"Male\",
+    \"can_trade\": true,
+    \"items\": [
+        {
+            \"id\": 1,
+            \"quantity\": 5
+        }
+    ]
+}"
+</code></pre></div>
+
+</span>
+
+<span id="example-responses-PUTapi-martians--martian_id-">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary>
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+x-ratelimit-limit: 60
+x-ratelimit-remaining: 54
+ </code></pre>
+        </details>         <pre>
+
+<code class="language-json">{
+    &quot;status&quot;: 200,
+    &quot;success&quot;: true,
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;name&quot;: &quot;Juan Dela Cruz&quot;,
+        &quot;age&quot;: 23,
+        &quot;gender&quot;: &quot;Male&quot;,
+        &quot;can_trade&quot;: true,
+        &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2022-10-15T09:26:44.000000Z&quot;,
+        &quot;items&quot;: [
+            {
+                &quot;id&quot;: 1,
+                &quot;name&quot;: &quot;Oxygen&quot;,
+                &quot;points&quot;: 6,
+                &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+                &quot;pivot&quot;: {
+                    &quot;martian_id&quot;: 1,
+                    &quot;item_id&quot;: 1,
+                    &quot;quantity&quot;: 5
+                }
+            }
+        ]
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-PUTapi-martians--martian_id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PUTapi-martians--martian_id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PUTapi-martians--martian_id-"></code></pre>
+</span>
+<span id="execution-error-PUTapi-martians--martian_id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PUTapi-martians--martian_id-"></code></pre>
+</span>
+<form id="form-PUTapi-martians--martian_id-" data-method="PUT"
+      data-path="api/martians/{martian_id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PUTapi-martians--martian_id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+            </h3>
+            <p>
+            <small class="badge badge-darkblue">PUT</small>
+            <b><code>api/martians/{martian_id}</code></b>
+        </p>
+                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>martian_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number"
+               name="martian_id"
+               data-endpoint="PUTapi-martians--martian_id-"
+               value="1"
+               data-component="url" hidden>
+    <br>
+<p>The ID of the martian.</p>
+            </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text"
+               name="name"
+               data-endpoint="PUTapi-martians--martian_id-"
+               value="Juan Dela Cruz"
+               data-component="body" hidden>
+    <br>
+<p>The name of the martian.</p>
+        </p>
+                <p>
+            <b><code>age</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number"
+               name="age"
+               data-endpoint="PUTapi-martians--martian_id-"
+               value="23"
+               data-component="body" hidden>
+    <br>
+<p>The age of the martian.</p>
+        </p>
+                <p>
+            <b><code>gender</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text"
+               name="gender"
+               data-endpoint="PUTapi-martians--martian_id-"
+               value="Male"
+               data-component="body" hidden>
+    <br>
+<p>The gender of the martian.</p>
+        </p>
+                <p>
+            <b><code>can_trade</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+<i>optional</i> &nbsp;
+                <label data-endpoint="PUTapi-martians--martian_id-" hidden>
+            <input type="radio" name="can_trade"
+                   value="true"
+                   data-endpoint="PUTapi-martians--martian_id-"
+                   data-component="body"
+            >
+            <code>true</code>
+        </label>
+        <label data-endpoint="PUTapi-martians--martian_id-" hidden>
+            <input type="radio" name="can_trade"
+                   value="false"
+                   data-endpoint="PUTapi-martians--martian_id-"
+                   data-component="body"
+            >
+            <code>false</code>
+        </label>
+    <br>
+<p>Flagging for martian.</p>
+        </p>
+                <p>
+        <details>
+            <summary style="padding-bottom: 10px;">
+                <b><code>items</code></b>&nbsp;&nbsp;
+<small>object[]</small>&nbsp;
+<i>optional</i> &nbsp;
+<br>
+<p>Items that the martian owns.</p>
+            </summary>
+                                                <p>
+                        <b><code>items[].id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number"
+               name="items.0.id"
+               data-endpoint="PUTapi-martians--martian_id-"
+               value="1"
+               data-component="body" hidden>
+    <br>
+<p>Item ID.</p>
+                    </p>
+                                                                <p>
+                        <b><code>items[].quantity</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number"
+               name="items.0.quantity"
+               data-endpoint="PUTapi-martians--martian_id-"
+               value="5"
+               data-component="body" hidden>
+    <br>
+<p>Item quantity.</p>
+                    </p>
+                                    </details>
+        </p>
+        </form>
+
+                <h1 id="trading">Trading</h1>
+
+    <p>API for trading</p>
+
+                                <h2 id="trading-POSTapi-trade">Perform a trade between two martians.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-trade">
+<blockquote>Example request:</blockquote>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/trade"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "trader_1": {
+        "id": 1,
+        "items": [
+            {
+                "id": 1,
+                "quantity": 1
+            }
+        ]
+    },
+    "trader_2": {
+        "id": 2,
+        "items": [
+            {
+                "id": 3,
+                "quantity": 2
+            }
+        ]
+    }
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/api/trade" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"trader_1\": {
+        \"id\": 1,
+        \"items\": [
+            {
+                \"id\": 1,
+                \"quantity\": 1
+            }
+        ]
+    },
+    \"trader_2\": {
+        \"id\": 2,
+        \"items\": [
+            {
+                \"id\": 3,
+                \"quantity\": 2
+            }
+        ]
+    }
+}"
+</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-trade">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary>
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+x-ratelimit-limit: 60
+x-ratelimit-remaining: 53
+ </code></pre>
+        </details>         <pre>
+
+<code class="language-json">{
+    &quot;status&quot;: 200,
+    &quot;success&quot;: true,
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;Juan Dela Cruz&quot;,
+            &quot;age&quot;: 20,
+            &quot;gender&quot;: &quot;Male&quot;,
+            &quot;can_trade&quot;: true,
+            &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+            &quot;items&quot;: [
+                {
+                    &quot;id&quot;: 3,
+                    &quot;name&quot;: &quot;Food&quot;,
+                    &quot;points&quot;: 3,
+                    &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+                    &quot;pivot&quot;: {
+                        &quot;martian_id&quot;: 1,
+                        &quot;item_id&quot;: 3,
+                        &quot;quantity&quot;: 2
+                    }
+                }
+            ]
+        },
+        {
+            &quot;id&quot;: 2,
+            &quot;name&quot;: &quot;Pedro Dela Cruz&quot;,
+            &quot;age&quot;: 20,
+            &quot;gender&quot;: &quot;Male&quot;,
+            &quot;can_trade&quot;: true,
+            &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+            &quot;items&quot;: [
+                {
+                    &quot;id&quot;: 1,
+                    &quot;name&quot;: &quot;Oxygen&quot;,
+                    &quot;points&quot;: 6,
+                    &quot;created_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2022-10-15T09:25:01.000000Z&quot;,
+                    &quot;pivot&quot;: {
+                        &quot;martian_id&quot;: 2,
+                        &quot;item_id&quot;: 1,
+                        &quot;quantity&quot;: 1
+                    }
+                }
+            ]
+        }
+    ]
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-trade" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-trade"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-trade"></code></pre>
+</span>
+<span id="execution-error-POSTapi-trade" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-trade"></code></pre>
+</span>
+<form id="form-POSTapi-trade" data-method="POST"
+      data-path="api/trade"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-trade', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/trade</code></b>
+        </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+        <details>
+            <summary style="padding-bottom: 10px;">
+                <b><code>trader_1</code></b>&nbsp;&nbsp;
+<small>object</small>&nbsp;
+ &nbsp;
+<br>
+<p>The first trader.</p>
+            </summary>
+                                                <p>
+                        <b><code>trader_1.id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number"
+               name="trader_1.id"
+               data-endpoint="POSTapi-trade"
+               value="1"
+               data-component="body" hidden>
+    <br>
+<p>The ID of the first trader.</p>
+                    </p>
+                                                                <p>
+        <details>
+            <summary style="padding-bottom: 10px;">
+                <b><code>trader_1.items</code></b>&nbsp;&nbsp;
+<small>object[]</small>&nbsp;
+ &nbsp;
+<br>
+<p>The trading items of the first trader.</p>
+            </summary>
+                                                <p>
+                        <b><code>trader_1.items[].id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number"
+               name="trader_1.items.0.id"
+               data-endpoint="POSTapi-trade"
+               value="1"
+               data-component="body" hidden>
+    <br>
+<p>ID of a trading item.</p>
+                    </p>
+                                                                <p>
+                        <b><code>trader_1.items[].quantity</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number"
+               name="trader_1.items.0.quantity"
+               data-endpoint="POSTapi-trade"
+               value="1"
+               data-component="body" hidden>
+    <br>
+<p>Quantity of a trading item.</p>
+                    </p>
+                                    </details>
+        </p>
+                                        </details>
+        </p>
+                <p>
+        <details>
+            <summary style="padding-bottom: 10px;">
+                <b><code>trader_2</code></b>&nbsp;&nbsp;
+<small>object</small>&nbsp;
+ &nbsp;
+<br>
+<p>The second trader.</p>
+            </summary>
+                                                <p>
+                        <b><code>trader_2.id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number"
+               name="trader_2.id"
+               data-endpoint="POSTapi-trade"
+               value="2"
+               data-component="body" hidden>
+    <br>
+<p>The ID of the second trader.</p>
+                    </p>
+                                                                <p>
+        <details>
+            <summary style="padding-bottom: 10px;">
+                <b><code>trader_2.items</code></b>&nbsp;&nbsp;
+<small>object[]</small>&nbsp;
+ &nbsp;
+<br>
+<p>The trading items of the second trader.</p>
+            </summary>
+                                                <p>
+                        <b><code>trader_2.items[].id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number"
+               name="trader_2.items.0.id"
+               data-endpoint="POSTapi-trade"
+               value="3"
+               data-component="body" hidden>
+    <br>
+<p>ID of a trading item.</p>
+                    </p>
+                                                                <p>
+                        <b><code>trader_2.items[].quantity</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number"
+               name="trader_2.items.0.quantity"
+               data-endpoint="POSTapi-trade"
+               value="2"
+               data-component="body" hidden>
+    <br>
+<p>Quantity of a trading item.</p>
+                    </p>
+                                    </details>
+        </p>
+                                        </details>
+        </p>
+        </form>
+
+            
+
+        
+    </div>
+    <div class="dark-box">
+                    <div class="lang-selector">
+                                                        <button type="button" class="lang-button" data-language-name="javascript">javascript</button>
+                                                        <button type="button" class="lang-button" data-language-name="bash">bash</button>
+                            </div>
+            </div>
+</div>
+</body>
+</html>

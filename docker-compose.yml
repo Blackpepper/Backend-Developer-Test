@@ -1,0 +1,54 @@
+version: "3.9"
+services:
+    app:
+        build:
+            context: ./
+            dockerfile: Dockerfile.dev
+        image: martians
+        container_name: martians_app
+        restart: unless-stopped
+        command: >-
+            sh -c "
+                composer install --no-interaction; \
+                php artisan key:generate; \
+                php artisan migrate; \
+                php artisan serve --host 0.0.0.0 --port 8000"
+        ports:
+        - "8000:8000"
+        healthcheck:
+            test: ["CMD", "curl", "http://localhost:8000"]
+            interval: 10s
+            timeout: 20s
+            retries: 10
+        depends_on:
+            mysql:
+                condition: service_healthy
+        volumes:
+        - ./:/var/www/html
+        networks:
+        - martians
+    mysql:
+        image: mysql:8.0
+        container_name: martians_db
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_USER: ${DB_USERNAME}
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "$$MYSQL_USER", "--password=$$MYSQL_PASSWORD"]
+            interval: 10s
+            timeout: 20s
+            retries: 10
+        volumes:
+        - martians-db:/var/lib/mysql
+        networks:
+        - martians
+
+volumes:
+    martians-db:
+
+networks:
+    martians:
+        driver: bridge
